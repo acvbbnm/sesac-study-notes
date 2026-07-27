@@ -49,6 +49,7 @@
 | Nop 코드 케이브 패치 실습 (memcpy · strcmp) | [`악성코드-리버싱/02_Nop_패치실습.md`](악성코드-리버싱/02_Nop_패치실습.md) |
 | Crackme 시리즈 분석 | [`악성코드-리버싱/03_Crackme_시리즈.md`](악성코드-리버싱/03_Crackme_시리즈.md) |
 | abex' 2nd crackme 상세 분석 | [`악성코드-리버싱/abex_2nd_crackme_분석.md`](악성코드-리버싱/abex_2nd_crackme_분석.md) |
+| Crackme4 — 볼륨 라벨 기반 키젠 분석 | [`악성코드-리버싱/Crackme4_볼륨라벨_키젠.md`](악성코드-리버싱/Crackme4_볼륨라벨_키젠.md) |
 | headache — 깨진 PE 헤더 복구(플래그 획득) | [`악성코드-리버싱/headache_PE헤더복구.md`](악성코드-리버싱/headache_PE헤더복구.md) |
 | gzdoom — OpenGL 후킹 & 코드 케이브 | [`악성코드-리버싱/gzdoom_OpenGL후킹_코드케이브.md`](악성코드-리버싱/gzdoom_OpenGL후킹_코드케이브.md) |
 | 안티 디버깅 8종 기법 | [`악성코드-리버싱/04_Anti_Debugging.md`](악성코드-리버싱/04_Anti_Debugging.md) |
