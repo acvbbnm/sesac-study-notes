@@ -52,6 +52,7 @@
 | Crackme4 — 볼륨 라벨 기반 키젠 분석 | [`악성코드-리버싱/Crackme4_볼륨라벨_키젠.md`](악성코드-리버싱/Crackme4_볼륨라벨_키젠.md) |
 | headache — 깨진 PE 헤더 복구(플래그 획득) | [`악성코드-리버싱/headache_PE헤더복구.md`](악성코드-리버싱/headache_PE헤더복구.md) |
 | gzdoom — OpenGL 후킹 & 코드 케이브 | [`악성코드-리버싱/gzdoom_OpenGL후킹_코드케이브.md`](악성코드-리버싱/gzdoom_OpenGL후킹_코드케이브.md) |
+| 지뢰찾기 — 메뉴 하이재킹으로 지뢰 전체 표시 | [`악성코드-리버싱/winmine_지뢰표시_후킹.md`](악성코드-리버싱/winmine_지뢰표시_후킹.md) |
 | 안티 디버깅 8종 기법 | [`악성코드-리버싱/04_Anti_Debugging.md`](악성코드-리버싱/04_Anti_Debugging.md) |
 | 해시 · 파일 무결성 실습 | [`악성코드-리버싱/05_해시_무결성.md`](악성코드-리버싱/05_해시_무결성.md) |
 
