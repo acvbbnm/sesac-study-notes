@@ -42,44 +42,46 @@ winmine에는 "보드 전체 지뢰를 한 번에 드러내는" 깔끔한 무인
 
 따라서 **`0x100374F`를 보드 전체 칸에 대해 루프로 호출**하면 모든 칸이 열려 지뢰가 다 보인다. 이 루프를 코드 케이브에 직접 작성한다(개별 기능을 조합해 새 기능을 만드는 것이 이 실습의 핵심).
 
-## 3. 코드 케이브에 reveal 루프 작성
+## 3. 코드 케이브에 reveal 루프 작성 (0x01004B00)
 
-x32dbg에서 우클릭 → **Allocate memory**로 RWX 페이지를 받는다(그 주소를 `CAVE`라 하자). `Ctrl+G`로 `CAVE`에 가서 스페이스바로 작성:
+케이브는 `.text` 끝(코드가 `0x01004A56`에서 끝남) 뒤의 **0으로 채워진 실행가능 패딩**을 쓴다 — 교안 지정 `0x01004B00`. `Ctrl+G`로 `0x01004B00` 이동 후 스페이스바로 아래를 그대로 작성(주소·점프까지 계산 완료):
 
 ```asm
-CAVE:
-  pushad
-  mov  esi, 1                       ; y = 1
-oy:                                 ; 바깥 루프
-  mov  edi, 1                       ; x = 1
-ox:                                 ; 안쪽 루프
-  push esi                          ; arg2 = y
-  push edi                          ; arg1 = x
-  call 0x100374F                    ; 칸(x,y) 열어 표시 (ret 8이 인자 정리)
-  inc  edi
-  cmp  edi, dword ptr [0x1005334]   ; x <= 폭 ?
-  jle  ox
-  inc  esi
-  cmp  esi, dword ptr [0x1005338]   ; y <= 높이 ?
-  jle  oy
-  popad
-  ret                               ; About 핸들러로 복귀
+0x01004B00  pushad
+0x01004B01  mov  esi, 1                       ; y = 1
+0x01004B06  mov  edi, 1                       ; x = 1   ← 바깥 루프 top (oy)
+0x01004B0B  push esi                          ; y       ← 안쪽 루프 top (ox)
+0x01004B0C  push edi                          ; x
+0x01004B0D  call 0x0100374F                   ; 칸(x,y) 열어 표시 (ret 8이 인자 정리)
+0x01004B12  inc  edi
+0x01004B13  cmp  edi, dword ptr [0x01005334]  ; x <= 폭 ?
+0x01004B19  jle  0x01004B0B                   ; → ox
+0x01004B1B  inc  esi
+0x01004B1C  cmp  esi, dword ptr [0x01005338]  ; y <= 높이 ?
+0x01004B22  jle  0x01004B06                   ; → oy
+0x01004B24  popad
+0x01004B25  ret                               ; About 핸들러로 복귀
 ```
 
-> 점프 대상 `oy`/`ox`는 x32dbg에서 라벨이 안 먹으니, 각 줄의 실제 주소를 확인해 `jle CAVE+오프셋` 형태(실제 숫자 주소)로 입력한다.
+점프는 짧은 형식(`7E xx`, 2바이트)으로 들어간다:
+- `0x01004B19 jle 0x01004B0B` → `7E F0`
+- `0x01004B22 jle 0x01004B06` → `7E E2`
 
 포인트:
 - 좌표가 **1부터** 시작(`mov esi,1`/`mov edi,1`). 0부터 하면 보드 테두리를 침범한다.
-- `0x100374F`가 `ret 8`이라 push한 x,y를 스스로 정리 → 루프 내 스택 균형 OK.
+- `0x0100374F`가 `ret 8`이라 push한 x,y를 스스로 정리 → 루프 내 스택 균형 OK.
 - 전체를 `pushad/popad`로 감싸 레지스터 보존.
+- ImageBase가 `0x01000000`이라 보드 글로벌은 폭 `0x01005334`, 높이 `0x01005338`, 칸 열기 `0x0100374F`.
 
 ## 4. "지뢰찾기 정보" 핸들러를 케이브 호출로 교체
 
 `Ctrl+G` → `0x1003D6D` → 스페이스바:
 
 ```asm
-0x1003D6D  call CAVE
+0x01003D6D  call 0x01004B00      ; 기존 call dword ptr [ShellAboutW] 대체
 ```
+
+바이트: `E8 8E 0D 00 00` + `90`(nop). 원래 `FF 15 ..`(6바이트) 자리를 `call rel`(5바이트)+nop로.
 
 - **"Fill with NOP's" 체크** (원래 `call [ShellAboutW]` 6바이트 → `call rel` 5바이트 + nop 1).
 - 앞서 push된 About 인자 4개는 남지만, 바로 뒤 `0x1003D74 leave`가 `esp=ebp`로 되돌려 **자동 정리**되므로 안전하다.
