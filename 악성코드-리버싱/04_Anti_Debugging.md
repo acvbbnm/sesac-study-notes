@@ -153,6 +153,83 @@ jnz  detected
 
 각 체크 함수는 탐지 시 `eax=1`로 설정하고 `0x40B900`을 호출한다. 하나라도 1이면 `"디버깅 당함"`, 전부 0이면 `"정상"`이 출력된다.
 
+## 직접 구현 실습 (9.Exercise 빈 스텁 채우기)
+
+`9.Exercise.exe`의 각 체크는 `ret`만 있는 빈 함수다. x32dbg에서 각 주소로 `Ctrl+G` 이동 → 스페이스바로 어셈블해 **탐지 로직을 직접 작성**한다. 규칙은 하나: **디버거를 탐지하면 `eax=1`, 아니면 `eax=0`으로 만들고 `call 0x40B900`(판정 보고)** 을 부른 뒤 `ret`.
+
+### 준비
+
+1. `9.Exercise.exe`를 x32dbg로 로드(디버거로 열어야 탐지가 의미 있음).
+2. 아래 각 스텁 주소로 `Ctrl+G` 이동 후 작성. 어셈블 창 "Fill with NOP's" 켜두기(빈 공간이 넉넉해 안전).
+
+### ① PEB.BeingDebugged 체크 — 0x40BD00
+
+PEB의 `+2` 바이트가 곧 "디버깅 여부"다. 그대로 eax에 담아 보고하면 된다.
+
+```asm
+0x40BD00  mov eax, dword ptr fs:[0x30]   ; PEB 주소
+0x40BD06  mov edx, dword ptr [eax+2]     ; BeingDebugged (0/1)
+0x40BD09  xor eax, eax
+0x40BD0B  mov al, dl                     ; eax = 탐지 플래그
+0x40BD0D  call 0x40B900                  ; 판정 보고
+0x40BD12  ret
+```
+
+왜: BeingDebugged는 디버거가 붙으면 1이 되는 바이트라, 별도 비교 없이 그 값이 곧 탐지 결과다.
+
+### ② NtGlobalFlag 체크 — 0x40BF00
+
+PEB `+0x68`이 `0x70`이면 디버깅 중. 같으면 eax=1, 아니면 0.
+
+```asm
+0x40BF00  mov eax, dword ptr fs:[0x30]
+0x40BF06  mov eax, dword ptr [eax+0x68]  ; NtGlobalFlag
+0x40BF09  cmp eax, 0x70                  ; 힙 체크 플래그 합(0x10+0x20+0x40)
+0x40BF0C  je  0x40BF15
+0x40BF0E  mov eax, 0                     ; 정상
+0x40BF13  jmp 0x40BF1A
+0x40BF15  mov eax, 1                     ; 탐지
+0x40BF1A  call 0x40B900
+0x40BF1F  ret
+```
+
+왜: BeingDebugged와 달리 값이 0/1이 아니라 플래그 비트라, `0x70`과 비교해서 0/1로 정규화한 뒤 보고한다.
+
+### ③ IsDebuggerPresent 체크 — 0x40C000
+
+API가 알아서 PEB를 읽어 0/1을 반환하므로 그대로 보고.
+
+```asm
+0x40C000  call dword ptr [<IsDebuggerPresent IAT>]   ; 반환값 eax = 0/1
+0x40C006  call 0x40B900
+0x40C00B  ret
+```
+
+`<IsDebuggerPresent IAT>` 슬롯은 x32dbg가 `<&IsDebuggerPresent>`로 자동 라벨링해준다(9.Answer 기준 `0x425144`). Symbols 탭이나 어셈블 창에서 `call dword ptr [<&IsDebuggerPresent>]`로 그대로 입력해도 된다.
+
+### ④ Time Check(RDTSC) 완성 — 0x40BB00
+
+드라이버는 이미 시작 `rdtsc`와 세 체크 호출이 있다. **끝 지점에 두 번째 rdtsc를 찍고 시간차를 구하는 부분**을 완성한다.
+
+```asm
+0x40BB00  rdtsc                     ; 시작 시각 (이미 있음)
+0x40BB02  push edx
+          ... call 0x40BD00 / 0x40BF00 / 0x40C000 (세 체크) ...
+0x40BB21  rdtsc                     ; 끝 시각 (직접 추가)
+0x40BB23  sub edx, dword ptr [esp]  ; 시간차 = 끝 - 시작
+          ; 시간차가 임계값보다 크면 eax=1 로 보고하도록 분기 추가
+```
+
+왜: 싱글스텝/브레이크로 지연되면 두 rdtsc 차이가 폭발한다. 그 차이를 임계값과 비교해 탐지로 판단한다.
+
+### ⑤ 검증
+
+- 작성 후 `F9`로 실행 → **디버거가 붙어 있으니** 각 체크가 1을 보고 → `"디버깅 당함"` 출력이 정상(=탐지 로직이 동작).
+- 반대로 디버거 없이 그냥 실행하면 `"정상"`이 떠야 한다.
+- 한 스텁씩 작성하며 테스트하면 어느 체크가 동작/미동작인지 바로 확인된다.
+
+> 이 과정이 곧 "안티디버깅을 **만드는**" 실습이다. 반대로 이걸 **우회**하는 연습은 아래 워크플로우로 이어진다(내가 짠 탐지를 스스로 무력화해보기).
+
 ## 공통 우회 워크플로우 (x32dbg)
 
 1. **BP on API**: `IsDebuggerPresent`, `FindWindowA`에 BP(Symbols 탭/Intermodular calls). 호출 직후 반환값 분기를 확인.
