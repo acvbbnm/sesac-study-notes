@@ -211,16 +211,33 @@ API가 알아서 PEB를 읽어 0/1을 반환하므로 그대로 보고.
 
 드라이버는 이미 시작 `rdtsc`와 세 체크 호출이 있다. **끝 지점에 두 번째 rdtsc를 찍고 시간차를 구하는 부분**을 완성한다.
 
+이 함수는 main에서 `call`로 진입하므로, 시간차 판정 뒤 **스택 정리(`add esp,4`) + `ret`으로 복귀**까지 완성해야 한다. 9.Answer 전체:
+
 ```asm
-0x40BB00  rdtsc                     ; 시작 시각 (이미 있음)
-0x40BB02  push edx
-          ... call 0x40BD00 / 0x40BF00 / 0x40C000 (세 체크) ...
+0x40BB00  rdtsc                     ; 시작 시각 (EDX:EAX)
+0x40BB02  push edx                  ; 시작값(하위) 저장 → 스택에 4바이트
+0x40BB03  call 0x40BD00             ; PEB 체크
+0x40BB08  mov eax, 0
+0x40BB0D  call 0x40BF00             ; NtGlobalFlag 체크
+0x40BB12  mov eax, 0
+0x40BB17  call 0x40C000             ; IsDebuggerPresent 체크
+0x40BB1C  mov eax, 0
 0x40BB21  rdtsc                     ; 끝 시각 (직접 추가)
 0x40BB23  sub edx, dword ptr [esp]  ; 시간차 = 끝 - 시작
-          ; 시간차가 임계값보다 크면 eax=1 로 보고하도록 분기 추가
+0x40BB26  cmp edx, 2                ; 임계값 2 (사이에 실작업 거의 없음)
+0x40BB29  jg  0x40BB32             ; 시간차 > 2 → 탐지
+0x40BB2B  mov eax, 0               ; 정상
+0x40BB30  jmp 0x40BB37
+0x40BB32  mov eax, 1               ; 탐지
+0x40BB37  call 0x40B900            ; 판정 보고
+0x40BB3C  add esp, 4               ; ★ push edx(시작값) 정리 → 스택 균형
+0x40BB3F  ret                      ; ★ main으로 복귀
 ```
 
-왜: 싱글스텝/브레이크로 지연되면 두 rdtsc 차이가 폭발한다. 그 차이를 임계값과 비교해 탐지로 판단한다.
+왜:
+- 싱글스텝/브레이크로 지연되면 두 rdtsc 차이가 폭발한다. 정상 실행이면 사이에 실작업이 거의 없어 차이가 `2` 이하라, 임계값 `2`를 넘으면 디버깅으로 판단.
+- **`push edx`로 쌓은 4바이트를 `add esp,4`로 반드시 정리**해야 스택이 맞는다. 안 그러면 `ret`이 엉뚱한 주소를 꺼내 크래시(앞서 gzdoom/CS 케이브에서 겪은 그 스택 균형 원칙과 동일).
+- 함수로 `call`되어 왔으니 마지막은 **`ret`**. (`jmp`로 진입한 케이브라면 `ret` 대신 복귀 `jmp`였겠지만, 여기는 정식 함수 호출이라 `ret`이 맞다.)
 
 ### ⑤ 검증
 
