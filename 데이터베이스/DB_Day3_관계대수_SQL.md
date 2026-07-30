@@ -1,4 +1,4 @@
-**데이터베이스 Day 3**
+﻿**데이터베이스 Day 3**
 
 관계대수(Relational Algebra) · SQL 개요
 
@@ -6,7 +6,7 @@
 
 목차
 
-6\. 관계대수 (Relational Algebra)
+6. 관계대수 (Relational Algebra)
 
 **관계대수** : 릴레이션에서 원하는 결과를 얻기 위한 연산을 기술하는 **절차적 언어**(어떻게 찾는지 절차를 명시). DBMS 내부의 처리 언어이며, 결과도 릴레이션으로 반환됩니다.
 
@@ -30,19 +30,10 @@
 
 **조인의 종류** : 세타 조인(비교 조건), 동등 조인(=), **자연 조인(동등 조인에서 중복 속성 제거)**, 세미 조인(한쪽 속성만 남김), **외부 조인(left/right/full — 실패한 쪽을 NULL로 채움)**.
 
-<table>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
-<tbody>
-<tr>
-<td><p><strong>💡 셀렉션은 가로(행), 프로젝션은 세로(열)</strong></p>
-<p><strong>셀렉션(σ)은 조건에 맞는 행을 잘라내고, 프로젝션(π)은 원하는 열만 뽑습니다.</strong> 관계대수는 SQL의 이론적 토대로, 결과가 항상 릴레이션이라 연산을 계속 이어붙일 수 있습니다(닫힘 성질). 자연 조인은 공통 속성으로 두 표를 합치되 중복 열을 하나로 정리한 것이라 실무에서 가장 많이 쓰입니다.</p></td>
-</tr>
-</tbody>
-</table>
+> **💡 셀렉션은 가로(행), 프로젝션은 세로(열)**
+> **셀렉션(σ)은 조건에 맞는 행을 잘라내고, 프로젝션(π)은 원하는 열만 뽑습니다.** 관계대수는 SQL의 이론적 토대로, 결과가 항상 릴레이션이라 연산을 계속 이어붙일 수 있습니다(닫힘 성질). 자연 조인은 공통 속성으로 두 표를 합치되 중복 열을 하나로 정리한 것이라 실무에서 가장 많이 쓰입니다.
 
-7\. SQL 개요
+7. SQL 개요
 
 실습용 **마당서점 데이터베이스**는 세 릴레이션으로 구성됩니다(밑줄=기본키).
 
@@ -72,26 +63,8 @@ FROM Book -- 대상 릴레이션
 
 WHERE bookname = '축구의 역사'; -- 셀렉션(행 조건)
 
-<table>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
-<tbody>
-<tr>
-<td><p><strong>💡 SQL = 관계대수의 실무 구현</strong></p>
-<p>SQL의 <strong>SELECT 절은 프로젝션(π), WHERE 절은 셀렉션(σ)</strong>에 대응합니다. 즉 관계대수가 이론, SQL이 그 실무 구현입니다. 명령어는 <strong>DDL(구조)·DML(데이터)·DCL(권한)</strong> 세 갈래로 나뉘며, 이 중 DML의 SELECT가 조회의 핵심입니다.</p></td>
-</tr>
-</tbody>
-</table>
+> **💡 SQL = 관계대수의 실무 구현**
+> SQL의 **SELECT 절은 프로젝션(π), WHERE 절은 셀렉션(σ)**에 대응합니다. 즉 관계대수가 이론, SQL이 그 실무 구현입니다. 명령어는 **DDL(구조)·DML(데이터)·DCL(권한)** 세 갈래로 나뉘며, 이 중 DML의 SELECT가 조회의 핵심입니다.
 
-<table>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
-<tbody>
-<tr>
-<td><p><strong>💡 전체 마무리</strong></p>
-<p>Day1 <strong>DBMS·독립성</strong> → Day2 <strong>관계모델·키·무결성</strong> → Day3 <strong>관계대수→SQL</strong>. 관계대수의 셀렉션·프로젝션이 SQL의 WHERE·SELECT로 이어지며 이론이 실무로 완성된다.</p></td>
-</tr>
-</tbody>
-</table>
+> **💡 전체 마무리**
+> Day1 **DBMS·독립성** → Day2 **관계모델·키·무결성** → Day3 **관계대수→SQL**. 관계대수의 셀렉션·프로젝션이 SQL의 WHERE·SELECT로 이어지며 이론이 실무로 완성된다.
