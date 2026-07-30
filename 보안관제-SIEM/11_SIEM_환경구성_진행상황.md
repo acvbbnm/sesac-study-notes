@@ -1,6 +1,6 @@
 # 11. SIEM 환경구성 진행상황
 
-> 최종 업데이트: 2026-07-29
+> 최종 업데이트: 2026-07-30
 
 ---
 
@@ -13,11 +13,11 @@
 | 3 | ESXi 가상 스위치 5개 생성 | ✅ 완료 |
 | 4 | Vyos 라우터 설치 및 설정 | ✅ 완료 |
 | 5 | pfsense 방화벽 설치 및 IP 설정 | ✅ 완료 |
-| 6 | Mng-Mint 설치 (OS 설치만 완료) | ⏳ 네트워크 설정 필요 |
-| 7 | pfsense 웹 콘솔 접속 및 상세 설정 | ❌ 미진행 |
-| 8 | pfsense IPS (Snort) 구축 | ❌ 미진행 |
-| 9 | Bee-box 웹서버 설치 | ❌ 미진행 |
-| 10 | Ubuntu + Splunk SIEM 설치 | ❌ 미진행 |
+| 6 | Mng-Mint 네트워크 설정 | ✅ 완료 (10.0.50.100/24) |
+| 7 | pfsense 웹 콘솔 접속 및 상세 설정 | ⚠️ 접속 불가 (HTTPS 타임아웃, 추후 재시도) |
+| 8 | Bee-box 웹서버 설치 | ✅ 완료 (OVF 등록, IP 설정 완료) |
+| 9 | Ubuntu + Splunk SIEM 설치 | ✅ 완료 (Splunk 8.2.0 설치, 네트워크 inner-net 전환 필요) |
+| 10 | pfsense IPS (Snort) 구축 | ❌ 미진행 |
 | 11 | Att-Mint 공격자 클라이언트 설정 | ❌ 미진행 |
 | 12 | Splunk 로그 수집 설정 (방화벽/IPS) | ❌ 미진행 |
 
@@ -91,53 +91,61 @@ ESXi 어댑터 순서와 pfSense vmx 번호가 MAC 주소 순서에 따라 다�
 |------|-----|
 | OS | Linux Mint |
 | 네트워크 | mng-net |
-| 상태 | OS 설치 완료, 네트워크 설정 미완료 |
+| IP | 10.0.50.100/24 (GW: 10.0.50.1) |
+| 상태 | ✅ 네트워크 설정 완료 |
 | 계정 | kim / (설정한 비밀번호) |
+| ping 확인 | pfsense(10.0.50.1) ✅ 성공 |
+
+### Bee-box (취약 웹서버)
+
+| 항목 | 값 |
+|------|-----|
+| OS | Ubuntu (32비트) - bWAPP 사전 설치 |
+| 네트워크 | dmz-net |
+| IP | 10.0.10.50/24 (GW: 10.0.10.1) |
+| 설치 방식 | OVF → 기존 가상 시스템 등록 (vmx 직접 등록) |
+| 계정 | bee / bug |
+| 상태 | ✅ 설치 완료, 네트워크 설정 완료 |
+| 키보드 | USA 레이아웃으로 변경 완료 |
+
+### Ubuntu + Splunk (SIEM 서버)
+
+| 항목 | 값 |
+|------|-----|
+| OS | Ubuntu Server 20.04 LTS |
+| 네트워크 | inner-net (현재 VM Network → inner-net 전환 필요) |
+| IP | 10.0.100.50/24 (GW: 10.0.100.1) - netplan 설정 완료 |
+| hostname | splunk |
+| Splunk | 8.2.0 설치 완료, 자동 시작 설정 완료 |
+| Splunk 계정 | kisia01 / qwer12#$ |
+| Splunk 웹 | http://10.0.100.50:8000 |
+| SSH 계정 | user / (설정한 비밀번호) |
+| MobaXterm | Windows에서 SSH 접속용으로 설치 완료 |
+
+**TODO:** ESXi에서 네트워크를 inner-net으로 변경 + netplan 고정 IP 재적용
 
 ---
 
 ## 다음 시간 진행 예정
 
-### 1. Mng-Mint 네트워크 설정
+### 1. Ubuntu 네트워크 inner-net 전환
+- ESXi에서 ubuntu VM 네트워크 → inner-net 변경
+- netplan 고정 IP 적용 (10.0.100.50/24)
 
-```yaml
-# sudo xed /etc/netplan/1-network-manager-all.yaml
-network:
-  version: 2
-  renderer: NetworkManager
-  ethernets:
-    ens160:
-      addresses: [10.0.50.100/24]
-      gateway4: 10.0.50.1
-      nameservers:
-        addresses: [8.8.8.8, 8.8.4.4]
-```
-
-```bash
-sudo netplan apply
-ping 10.0.50.1    # pfsense 연결 확인
-ping 10.0.0.1     # Vyos 라우터 확인
-ping 8.8.8.8      # 인터넷 확인
-```
-
-### 2. pfsense 웹 콘솔 접속
-
-Mng-Mint 브라우저에서: `http://10.0.50.1`
+### 2. pfsense 웹 콘솔 접속 재시도
+- Mng-Mint에서 https://10.0.50.1 접속
+- webConfigurator 재시작 (콘솔 11번) 후 시도
 - 계정: admin / pfsense → 비밀번호 변경: qwer12#$
-- Timezone: Asia/Seoul
-- 인터페이스 이름 변경: LAN→MNG-NET, OPT1→DMZ-NET, OPT2→INNER-NET
 
-### 3. pfsense 방화벽 룰 및 포트포워딩 설정
+### 3. Att-Mint 공격자 클라이언트 설정
+- IP: 10.50.50.17/24, GW: 10.50.50.1
+- 네트워크: att-net
 
-### 4. Snort IPS 설치
+### 4. pfsense 방화벽 룰 및 포트포워딩 설정
 
-### 5. Bee-box 웹서버 설치
+### 5. Snort IPS 설치
 
-### 6. Ubuntu + Splunk 설치
-
-### 7. Att-Mint 설정
-
-### 8. 로그 수집 연동 테스트
+### 6. Splunk 로그 수집 연동 테스트
 
 ---
 
@@ -145,11 +153,13 @@ Mng-Mint 브라우저에서: `http://10.0.50.1`
 
 ### 종료 순서 (역순)
 ```
-1. Mng-Mint → sudo poweroff
-2. pfsense → 콘솔 메뉴 6 (Halt system) → y
-3. Vyos → poweroff
-4. ESXi → F2 → Shut Down
-5. VMware Workstation 닫기
+1. Ubuntu(Splunk) → sudo poweroff
+2. Bee-box → sudo poweroff
+3. Mng-Mint → sudo poweroff
+4. pfsense → 콘솔 메뉴 6 (Halt system) → y
+5. Vyos → poweroff
+6. ESXi → F2 → Shut Down
+7. VMware Workstation 닫기
 ```
 
 ### 시작 순서
@@ -159,4 +169,12 @@ Mng-Mint 브라우저에서: `http://10.0.50.1`
 3. Vyos 시작
 4. pfsense 시작
 5. Mng-Mint 시작
+6. Bee-box 시작
+7. Ubuntu(Splunk) 시작
 ```
+
+### ESXi 리소스 주의사항
+- ESXi RAM: 7.9GB (VMware Workstation에서 150GB 디스크로 확장 완료)
+- 데이터스토어: 92.5GB (ISO 삭제로 공간 확보 필요)
+- VM 동시 실행 시 메모리 부족 주의 (커널 패닉 발생 이력 있음)
+- 필요 없는 VM은 꺼두고 작업할 것
