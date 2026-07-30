@@ -14,12 +14,14 @@
 | 4 | Vyos 라우터 설치 및 설정 | ✅ 완료 |
 | 5 | pfsense 방화벽 설치 및 IP 설정 | ✅ 완료 |
 | 6 | Mng-Mint 네트워크 설정 | ✅ 완료 (10.0.50.100/24) |
-| 7 | pfsense 웹 콘솔 접속 및 상세 설정 | ⚠️ 접속 불가 (HTTPS 타임아웃, 추후 재시도) |
+| 7 | pfsense 웹 콘솔 접속 | ✅ 완료 (HTTP 포트80, Mng-Mint에서 접속 확인) |
 | 8 | Bee-box 웹서버 설치 | ✅ 완료 (OVF 등록, IP 설정 완료) |
-| 9 | Ubuntu + Splunk SIEM 설치 | ✅ 완료 (Splunk 8.2.0 설치, 네트워크 inner-net 전환 필요) |
-| 10 | pfsense IPS (Snort) 구축 | ❌ 미진행 |
-| 11 | Att-Mint 공격자 클라이언트 설정 | ❌ 미진행 |
-| 12 | Splunk 로그 수집 설정 (방화벽/IPS) | ❌ 미진행 |
+| 9 | Ubuntu + Splunk SIEM 설치 | ✅ 완료 (inner-net 전환 완료, 10.0.100.50/24) |
+| 10 | pfsense 방화벽 룰 설정 | ✅ 완료 (WAN NAT룰, DMZNET/INNERNET deny all) |
+| 11 | Mng-Mint → Ubuntu SSH 연결 | ✅ 완료 (pfSense 경유 mng-net↔inner-net 통신) |
+| 12 | pfsense IPS (Snort) 구축 | ✅ 완료 (GPLv2+ET Open, WAN 인터페이스, 룰 적용) |
+| 13 | Att-Mint 공격자 클라이언트 설정 | ❌ 미진행 |
+| 14 | Splunk 로그 수집 설정 (방화벽/IPS) | ❌ 미진행 |
 
 ---
 
@@ -113,39 +115,63 @@ ESXi 어댑터 순서와 pfSense vmx 번호가 MAC 주소 순서에 따라 다�
 | 항목 | 값 |
 |------|-----|
 | OS | Ubuntu Server 20.04 LTS |
-| 네트워크 | inner-net (현재 VM Network → inner-net 전환 필요) |
-| IP | 10.0.100.50/24 (GW: 10.0.100.1) - netplan 설정 완료 |
+| 네트워크 | inner-net ✅ (전환 완료) |
+| IP | 10.0.100.50/24 (GW: 10.0.100.1) |
 | hostname | splunk |
 | Splunk | 8.2.0 설치 완료, 자동 시작 설정 완료 |
 | Splunk 계정 | kisia01 / qwer12#$ |
 | Splunk 웹 | http://10.0.100.50:8000 |
 | SSH 계정 | user / (설정한 비밀번호) |
-| MobaXterm | Windows에서 SSH 접속용으로 설치 완료 |
+| SSH 접속 | Mng-Mint에서 `ssh user@10.0.100.50` ✅ 확인 |
+| MobaXterm | Windows에서 설치 완료 (inner-net 전환 후 직접접속 불가, Mng-Mint SSH 사용) |
 
-**TODO:** ESXi에서 네트워크를 inner-net으로 변경 + netplan 고정 IP 재적용
+### pfsense 웹 콘솔 접속 정보
+
+| 항목 | 값 |
+|------|-----|
+| 접속 URL | http://10.0.50.1 (HTTP, 포트 80) |
+| 접속 방법 | Mng-Mint 브라우저에서 접속 |
+| 계정 | admin / pfsense (→ qwer12#$ 변경 예정) |
+| 버전 | 2.7.2-RELEASE (FreeBSD 14.0-CURRENT) |
+| 웹서버 | nginx (포트 80에서 동작) |
+| 참고 | HTTPS(443)는 비활성, HTTP(80)만 사용 가능 |
+
+### pfsense 방화벽 룰 현황
+
+| 인터페이스 | 룰 | 설명 |
+|----------|-----|------|
+| WAN | ✅ Allow TCP * → 10.0.10.50:80 | NAT (외부→Bee-box 웹서버) |
+| WAN | ❌ Deny all TCP | 나머지 차단 |
+| MNGNET | (anti-lockout 기본룰) | 관리 접속 허용 |
+| DMZNET | ❌ Deny all TCP | 전체 차단 |
+| INNERNET | ❌ Deny all TCP | 전체 차단 |
 
 ---
 
-## 다음 시간 진행 예정
+### Snort IPS (pfsense)
 
-### 1. Ubuntu 네트워크 inner-net 전환
-- ESXi에서 ubuntu VM 네트워크 → inner-net 변경
-- netplan 고정 IP 적용 (10.0.100.50/24)
+| 항목 | 값 |
+|------|-----|
+| 패키지 | Snort (pfSense Package Manager에서 설치) |
+| 모니터링 인터페이스 | WAN (vmx1) |
+| 룰셋 | Snort GPLv2 + ET Open |
+| 업데이트 주기 | 1Day, 04:00 |
+| 카테고리 | Select All 적용 |
+| 상태 | ✅ Running |
 
-### 2. pfsense 웹 콘솔 접속 재시도
-- Mng-Mint에서 https://10.0.50.1 접속
-- webConfigurator 재시작 (콘솔 11번) 후 시도
-- 계정: admin / pfsense → 비밀번호 변경: qwer12#$
+---
 
-### 3. Att-Mint 공격자 클라이언트 설정
+## 다음 진행 예정
+
+### 1. pfsense admin 비밀번호 변경
+- System → User Manager → admin → qwer12#$
+- System → General Setup → Timezone: Asia/Seoul
+
+### 2. Att-Mint 공격자 클라이언트 설정
 - IP: 10.50.50.17/24, GW: 10.50.50.1
 - 네트워크: att-net
 
-### 4. pfsense 방화벽 룰 및 포트포워딩 설정
-
-### 5. Snort IPS 설치
-
-### 6. Splunk 로그 수집 연동 테스트
+### 3. Splunk 로그 수집 연동 테스트
 
 ---
 
@@ -175,6 +201,6 @@ ESXi 어댑터 순서와 pfSense vmx 번호가 MAC 주소 순서에 따라 다�
 
 ### ESXi 리소스 주의사항
 - ESXi RAM: 7.9GB (VMware Workstation에서 150GB 디스크로 확장 완료)
-- 데이터스토어: 92.5GB (ISO 삭제로 공간 확보 필요)
+- 데이터스토어: 150GB (디스크 확장 완료, ISO 삭제로 공간 확보 완료)
 - VM 동시 실행 시 메모리 부족 주의 (커널 패닉 발생 이력 있음)
 - 필요 없는 VM은 꺼두고 작업할 것
