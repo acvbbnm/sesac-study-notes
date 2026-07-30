@@ -67,6 +67,11 @@
 - 학습 환경에서는 물리 서버가 없으므로, PC 위에 Workstation을 깔고 그 안에 ESXi를 넣어서 동일한 구조를 시뮬레이션
 - ESXi가 제공하는 가상 스위치(vSwitch)를 이용해 네트워크 존을 분리
 
+> **ESXi 커널 패닉 — 리소스 부족 주의**
+> VM을 동시에 너무 많이 실행하면 ESXi 메모리 부족으로 커널 패닉이 발생할 수 있다.
+>
+> ![ESXi 커널 패닉 발생 화면](images/스크린샷%202026-07-30%20110604.png)
+
 ### ESXi 가상 스위치 (vSwitch)
 
 물리 스위치 없이 **소프트웨어로 네트워크를 분리**하는 장치.
@@ -80,6 +85,11 @@
 | dmz-net | 10.0.10.0/24 | DMZ (웹서버) | pfSense OPT1, Bee-box |
 | mng-net | 10.0.50.0/24 | 관리 네트워크 | pfSense LAN, Mng-Mint |
 | inner-net | 10.0.100.0/24 | 내부 네트워크 (SIEM) | pfSense OPT2, Ubuntu |
+
+> **ESXi 가상 스위치 구성 화면**
+>
+> ![ESXi 네트워크 어댑터 설정 — rf-net](images/스크린샷%202026-07-30%20101616.png)
+> ![ESXi 네트워크 어댑터 설정 — 전체 어댑터 목록](images/스크린샷%202026-07-30%20102115.png)
 
 ---
 
@@ -119,6 +129,10 @@
 
 **역할:** 네트워크 존(mng, dmz, inner) 사이의 트래픽을 검사하고, 허용/차단 결정
 
+> **pfSense 대시보드 — 시스템 정보 및 인터페이스 현황**
+>
+> ![pfSense 대시보드](images/스크린샷%202026-07-30%20154648.png)
+
 ```
          Vyos (rf-net)
             │
@@ -142,6 +156,13 @@
 | OPT1 (DMZNET) | 10.0.10.1/24 | dmz-net | 웹서버가 있는 DMZ |
 | OPT2 (INNERNET) | 10.0.100.1/24 | inner-net | SIEM이 있는 내부 |
 
+> **pfSense 인터페이스 할당 — MAC 주소 기반 매핑**
+>
+> ESXi 어댑터 순서와 pfSense vmx 번호는 MAC 주소 알파벳 순서로 결정되므로 일치하지 않는다.
+>
+> ![pfSense 콘솔 — 인터페이스 할당 확인](images/스크린샷%202026-07-30%20102240.png)
+> ![pfSense 인터페이스 IP 목록](images/스크린샷%202026-07-30%20102409.png)
+
 **방화벽 룰 현황:**
 
 | 인터페이스 | 룰 | 의미 |
@@ -151,6 +172,12 @@
 | MNGNET | Anti-lockout 기본룰 | 관리자가 방화벽 자체에 접속 가능 |
 | DMZNET | Deny all TCP | DMZ에서 나가는 트래픽 차단 |
 | INNERNET | Deny all TCP | 내부에서 나가는 트래픽 차단 |
+
+> **방화벽 룰 설정 캡처**
+>
+> ![WAN 룰 — NAT 허용 + deny all](images/스크린샷%202026-07-30%20161355.png)
+> ![DMZNET 룰 — deny all](images/스크린샷%202026-07-30%20161407.png)
+> ![INNERNET 룰 — deny all](images/스크린샷%202026-07-30%20161415.png)
 
 **핵심 개념 — 방화벽 룰:**
 - 방화벽은 기본적으로 **모든 트래픽을 차단**하고, 명시적으로 허용한 것만 통과시킴
@@ -167,6 +194,14 @@
 - WAN 인터페이스에서 동작하여 외부에서 들어오는 모든 트래픽을 검사
 - GPLv2 + ET Open 룰셋 적용 (알려진 공격 패턴 탐지)
 - 탐지된 공격 로그를 Splunk로 전송할 예정
+
+> **Snort IPS 설정 과정**
+>
+> 교재에는 WAN(vmx0)으로 안내되지만, 실제 환경에서는 MAC 주소 순서에 의해 WAN이 vmx1에 할당된다. 인터페이스 이름(WAN)으로 선택해야 한다.
+>
+> ![Snort 인터페이스 선택 — WAN(vmx1)](images/스크린샷%202026-07-30%20161951.png)
+> ![Snort Interfaces Overview — WAN 동작 확인](images/스크린샷%202026-07-30%20162352.png)
+> ![교재 Snort IPS 구축 절차](images/스크린샷%202026-07-30%20161652.png)
 
 ---
 
@@ -199,6 +234,10 @@
 | 계정 | bee / bug |
 | 용도 | 의도적으로 취약한 웹 애플리케이션 (모의해킹 연습용) |
 
+> **Bee-box VM 정보 (ESXi)**
+>
+> ![Bee-box ESXi VM 상세 정보](images/스크린샷%202026-07-30%20104820.png)
+
 - bWAPP = "buggy Web APPlication"
 - SQL Injection, XSS, Command Injection 등 다양한 취약점이 일부러 포함됨
 - 공격자(Att-Mint)가 이 서버를 대상으로 공격을 수행하면, Snort가 탐지하고 Splunk가 로그를 수집
@@ -223,6 +262,22 @@
 2. Ubuntu SSH 접속: `ssh user@10.0.100.50` (Splunk 서버 관리)
 3. Splunk 웹 접속: `http://10.0.100.50:8000` (로그 분석)
 
+> **Mng-Mint 네트워크 설정 과정**
+>
+> netplan YAML 설정 시 들여쓰기(2칸)와 리스트 형식(- 대시)에 주의해야 한다.
+>
+> ![Mng-Mint netplan 설정 편집 (nano)](images/스크린샷%202026-07-30%20103138.png)
+> ![netplan YAML 들여쓰기 오류](images/스크린샷%202026-07-30%20103149.png)
+> ![netplan 적용 성공 + pfSense ping 확인](images/스크린샷%202026-07-30%20103746.png)
+>
+> **pfSense 웹 콘솔 접속 — HTTP(80) 사용**
+>
+> pfSense nginx는 포트 80(HTTP)에서 동작한다. HTTPS(443)를 시도하면 타임아웃이 발생한다.
+>
+> ![HTTPS 접속 시도 → 타임아웃](images/스크린샷%202026-07-30%20104058.png)
+> ![pfSense nginx 프로세스 확인 (ps aux)](images/스크린샷%202026-07-30%20141413.png)
+> ![pfSense Setup Wizard — HTTP 접속 성공](images/스크린샷%202026-07-30%20141840.png)
+
 ### inner-net — 내부 네트워크 (10.0.100.0/24)
 
 **왜 SIEM을 내부에 두는가:**
@@ -241,6 +296,19 @@
 | Splunk 계정 | kisia01 / qwer12#$ |
 | Splunk 웹 | http://10.0.100.50:8000 |
 | SSH 계정 | user / (설정한 비밀번호) |
+
+> **Ubuntu(Splunk) 서버 설정 과정**
+>
+> ![Ubuntu Server 설치 완료](images/스크린샷%202026-07-30%20112150.png)
+> ![Ubuntu inner-net IP 확인 (10.0.100.50)](images/스크린샷%202026-07-30%20153546.png)
+> ![Splunk 서비스 시작 완료](images/스크린샷%202026-07-30%20135857.png)
+> ![MobaXterm SSH 접속 (inner-net 전환 전)](images/스크린샷%202026-07-30%20135457.png)
+>
+> **Mng-Mint에서 Ubuntu SSH 접속 (pfSense 경유)**
+>
+> inner-net 전환 후 Windows에서 직접 SSH 접속이 불가하므로, Mng-Mint에서 pfSense를 경유하여 접속한다.
+>
+> ![Mng-Mint → Ubuntu SSH 접속 성공](images/스크린샷%202026-07-30%20153942.png)
 
 ---
 
