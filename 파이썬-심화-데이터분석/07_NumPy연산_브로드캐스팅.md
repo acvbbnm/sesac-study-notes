@@ -1,0 +1,182 @@
+**07. NumPy 연산·브로드캐스팅**
+
+요소별 연산 · 브로드캐스팅 · axis 집계 · 벡터화 · 난수
+
+슬라이드 정리본 (요약 · 보충 · 퀴즈)
+
+목차
+
+1\. 요소별 연산 (Element-wise)
+
+배열은 스칼라·배열과의 연산을 **모든 원소에 한 번에** 적용합니다. 리스트 \*2는 반복(복제)이지만 배열 \*2는 원소별 곱입니다.
+
+import numpy as np
+
+scores = np.array(\[12., 45., 8., 30.\])
+
+scores + 10 \# 모든 원소에 +10
+
+scores \* 2 \# 모든 원소에 \*2
+
+bonus = np.array(\[1., 2., 3., 4.\])
+
+scores + bonus \# 같은 shape → 동일 위치 원소끼리 합
+
+scores \* bonus \# 동일 위치 원소끼리 곱
+
+ufunc · np.where
+
+np.sqrt(np.array(\[9., 16., 25.\])) \# \[3. 4. 5.\] 각 원소에 제곱근
+
+np.abs(\[-1, 2\]); np.round(\[1.4, 2.6\]) \# 원소별 절댓값·반올림
+
+\# 조건 선택: np.where(조건, 참값, 거짓값)
+
+scores = np.array(\[12, 45, 8, 30\])
+
+np.where(scores \>= 30, scores, 0) \# \[0 45 0 30\]
+
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr>
+<td><p><strong>💡 배열엔 np.sqrt (math.sqrt 아님)</strong></p>
+<p><strong>ufunc</strong>(np.sqrt·np.abs·np.round 등)는 배열을 받아 각 원소에 적용하고 같은 shape의 배열을 반환합니다. <strong>math.sqrt는 배열을 못 다루니</strong> 배열엔 반드시 np.sqrt를 쓰세요.</p>
+<p><strong>np.where(조건, 참값, 거짓값):</strong> 조건 배열이 참인 자리는 참값을, 거짓인 자리는 거짓값을 골라 새 배열을 만듭니다. 조건·참값·거짓값은 같은 shape이거나 브로드캐스트 가능해야 합니다.</p></td>
+</tr>
+</tbody>
+</table>
+
+2\. 브로드캐스팅 (Broadcasting)
+
+shape가 다른 배열끼리도 연산되게, **작은 배열을 큰 배열에 맞춰 확장**하는 규칙입니다. 실제로 데이터를 복사하진 않아요.
+
+A = np.array(\[\[1, 2, 3\],
+
+\[4, 5, 6\]\]) \# shape (2, 3)
+
+b = np.array(\[10, 20, 30\]) \# shape (3,)
+
+A + b \# b가 두 행 모두에 적용 → \[\[11,22,33\],\[14,25,36\]\]
+
+호환 규칙 — 뒤 축부터 비교
+
+| **계산**     | **끝 축 비교**         | **결과**       |
+|--------------|------------------------|----------------|
+| (2,3) + (3,) | 3 vs 3 · 같음          | OK             |
+| (2,3) + (1,) | 3 vs 1 · 한쪽이 1      | OK (늘려 맞춤) |
+| (2,3) + (2,) | 3 vs 2 · 다르고 1 아님 | **ValueError** |
+
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr>
+<td><p><strong>💡 뒤 축부터, 같거나 한쪽이 1이면 OK / 중심화</strong></p>
+<p>두 배열의 <strong>끝(마지막) 차원부터 왼쪽으로</strong> 비교해, 크기가 같거나 한쪽이 1이면 확장 가능하고, 그 외엔 ValueError입니다.</p>
+<p><strong>중심화(centering):</strong> 각 원소에서 그 열의 평균을 빼면 열 평균이 0이 됩니다. <strong>X - X.mean(axis=0)</strong> — 1차원 열 평균(shape (3,))이 모든 행으로 브로드캐스트되어 크기가 다른 배열끼리 연산됩니다. 결과는 원본과 같은 shape.</p></td>
+</tr>
+</tbody>
+</table>
+
+3\. 집계와 axis
+
+| **호출** | **의미** | **2x3 예 \[\[2,4,6\],\[8,10,12\]\]** |
+|----|----|----|
+| **M.sum()** | axis 없음 → 전체 합 (스칼라) | 42 |
+| **M.sum(axis=0)** | 행 축을 접음 → **열별** 합 | \[10 14 18\] |
+| **M.sum(axis=1)** | 열 축을 접음 → **행별** 합 | \[12 30\] |
+| **M.mean(axis=0)** | 열별 평균 | \[5. 7. 9.\] |
+
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr>
+<td><p><strong>💡 axis=0은 열별, axis=1은 행별</strong></p>
+<p><strong>지정한 축이 사라진다</strong>고 기억하세요. axis=0은 행 축을 접어 <strong>열별 결과</strong>(길이=열 수), axis=1은 열 축을 접어 <strong>행별 결과</strong>(길이=행 수). axis 없으면 전체를 하나의 스칼라로 집계합니다. 'axis=0을 행별로' 외우는 흔한 실수를 조심하세요.</p></td>
+</tr>
+</tbody>
+</table>
+
+4\. 벡터화 (Vectorization)
+
+반복문으로 원소를 하나씩 도는 대신 **배열 전체를 한 번에** 연산합니다. 데이터가 클수록 훨씬 빠릅니다.
+
+arr = np.array(\[1., 2., 3., 4.\])
+
+\# 반복문 (느림)
+
+total = 0.0
+
+for v in arr:
+
+total += v \* v
+
+\# 벡터화 (빠름) — 같은 결과 30.0
+
+vec_total = np.sum(arr \* arr)
+
+\# 속도 측정
+
+import timeit
+
+timeit.timeit(함수, number=1) \# 실행 시간(초). 데이터 크면 loop가 느려짐
+
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr>
+<td><p><strong>💡 왜 벡터화가 빠른가</strong></p>
+<p>반복문은 파이썬이 원소마다 연산/메모리 접근을 반복하지만, 벡터화는 <strong>C 레벨 내부 루프로 전체를 한 번에</strong> 계산합니다. 결과는 같고 데이터가 클수록 이득이 커집니다(절대 시간은 환경마다 다름).</p></td>
+</tr>
+</tbody>
+</table>
+
+5\. 난수와 재현성
+
+rng = np.random.default_rng(42) \# seed로 Generator 생성
+
+rng.integers(0, 100, 5) \# 0 이상 100 미만 정수 5개 (끝 미포함)
+
+\# 같은 seed → 같은 난수열
+
+a = np.random.default_rng(42).integers(0, 100, 5)
+
+b = np.random.default_rng(42).integers(0, 100, 5)
+
+np.array_equal(a, b) \# True (재현 가능)
+
+c = np.random.default_rng(99).integers(0, 100, 5)
+
+np.array_equal(a, c) \# False (다른 seed → 다른 값)
+
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr>
+<td><p><strong>💡 seed = 재현성</strong></p>
+<p><strong>default_rng(seed)</strong>에 같은 seed를 주면 <strong>항상 같은 난수열</strong>이 나와 실험을 재현할 수 있습니다(숫자 42 자체는 의미 없음). integers(시작, 끝, 개수)의 끝값은 미포함입니다. 실험·모델 결과를 남과 똑같이 재현하려면 seed를 고정하세요.</p></td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr>
+<td><p><strong>💡 Ch07 핵심 3</strong></p>
+<p>① 브로드캐스팅으로 모양을 맞춰 요소별 연산(중심화 X - X.mean(axis=0)), ② axis로 축 방향 집계(axis=0 열별·axis=1 행별), ③ 벡터화로 반복문 없이 빠르게 + default_rng(seed)로 재현 가능한 난수. 이 세 가지가 핵심입니다.</p></td>
+</tr>
+</tbody>
+</table>
