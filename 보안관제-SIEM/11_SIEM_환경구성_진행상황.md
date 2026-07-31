@@ -1,6 +1,6 @@
 # 11. SIEM 환경구성 진행상황
 
-> 최종 업데이트: 2026-07-30
+> 최종 업데이트: 2026-07-31
 
 ---
 
@@ -20,8 +20,8 @@
 | 10 | pfsense 방화벽 룰 설정 | ✅ 완료 (WAN NAT룰, DMZNET/INNERNET deny all) |
 | 11 | Mng-Mint → Ubuntu SSH 연결 | ✅ 완료 (pfSense 경유 mng-net↔inner-net 통신) |
 | 12 | pfsense IPS (Snort) 구축 | ✅ 완료 (GPLv2+ET Open, WAN 인터페이스, 룰 적용) |
-| 13 | Att-Mint 공격자 클라이언트 설정 | ❌ 미진행 |
-| 14 | Splunk 로그 수집 설정 (방화벽/IPS) | ❌ 미진행 |
+| 13 | Att-Mint 공격자 클라이언트 설정 | ✅ 완료 (mng-mint 복제, att-net, 10.50.50.17/24) |
+| 14 | Splunk 로그 수집 설정 (방화벽/IPS) | ✅ 완료 (UDP 514, index=pfsense, 483 events 확인) |
 
 ---
 
@@ -70,19 +70,19 @@ ESXi 어댑터 순서와 pfSense vmx 번호가 MAC 주소 순서에 따라 다�
 
 | ESXi 어댑터 | 네트워크 | MAC 주소 | pfSense 인터페이스 |
 |-----------|---------|---------|-----------------|
-| 어댑터 1 | rf-net | 00:0c:29:58:94:a9 | vmx1 |
-| 어댑터 2 | dmz-net | 00:0c:29:58:94:b3 | vmx2 |
-| 어댑터 3 | mng-net | 00:0c:29:58:94:bd | vmx3 |
-| 어댑터 4 | inner-net | 00:0c:29:58:94:c7 | vmx0 |
+| 어댑터 1 | rf-net | 00:0c:29:1e:3b:e3 | vmx1 |
+| 어댑터 2 | dmz-net | 00:0c:29:1e:3b:ed | vmx2 |
+| 어댑터 3 | mng-net | 00:0c:29:1e:3b:f7 | vmx3 |
+| 어댑터 4 | inner-net | 00:0c:29:1e:3b:01 | vmx0 |
 
 **인터페이스 할당 (MAC 기반 재매핑 완료):**
 
 | pfSense 역할 | vmx 인터페이스 | IP 주소 | 실제 네트워크 |
 |-------------|-------------|---------|-----------|
-| WAN | vmx1 (:a9) | 10.0.0.254/24 (GW: 10.0.0.1) | rf-net |
-| LAN | vmx3 (:bd) | 10.0.50.1/24 | mng-net |
-| OPT1 | vmx2 (:b3) | 10.0.10.1/24 | dmz-net |
-| OPT2 | vmx0 (:c7) | 10.0.100.1/24 | inner-net |
+| WAN | vmx1 (:3b:e3) | 10.0.0.254/24 (GW: 10.0.0.1) | rf-net |
+| LAN | vmx3 (:3b:f7) | 10.0.50.1/24 | mng-net |
+| OPT1 | vmx2 (:3b:ed) | 10.0.10.1/24 | dmz-net |
+| OPT2 | vmx0 (:3b:01) | 10.0.100.1/24 | inner-net |
 
 **연결 확인:**
 - pfsense → Vyos (10.0.0.1) ping: ✅ 성공
@@ -93,7 +93,7 @@ ESXi 어댑터 순서와 pfSense vmx 번호가 MAC 주소 순서에 따라 다�
 |------|-----|
 | OS | Linux Mint |
 | 네트워크 | mng-net |
-| IP | 10.0.50.100/24 (GW: 10.0.50.1) |
+| IP | 10.0.50.17/24 (GW: 10.0.50.1) |
 | 상태 | ✅ 네트워크 설정 완료 |
 | 계정 | kim / (설정한 비밀번호) |
 | ping 확인 | pfsense(10.0.50.1) ✅ 성공 |
@@ -161,17 +161,36 @@ ESXi 어댑터 순서와 pfSense vmx 번호가 MAC 주소 순서에 따라 다�
 
 ---
 
+## 완료된 추가 설정
+
+### Att-Mint (공격자 클라이언트)
+
+| 항목 | 값 |
+|------|-----|
+| OS | Linux Mint (mng-mint 복제) |
+| 네트워크 | att-net |
+| IP | 10.50.50.17/24 (GW: 10.50.50.1) |
+| 생성 방법 | 데이터스토어 브라우저에서 mng-mint 폴더 복사 → 기존 VM 등록 |
+| 상태 | ✅ 설치 완료, 네트워크 설정 완료 |
+
+### Splunk 로그 수집 설정
+
+| 항목 | 값 |
+|------|-----|
+| Splunk 데이터 입력 | UDP 514 (syslog) |
+| Source type | syslog |
+| Index | pfsense (신규 생성) |
+| pfSense Remote Logging | 10.0.100.50, Everything 체크 |
+| 수집 확인 | ✅ index=pfsense 검색 → 483 events 확인 |
+
+---
+
 ## 다음 진행 예정
 
-### 1. pfsense admin 비밀번호 변경
-- System → User Manager → admin → qwer12#$
-- System → General Setup → Timezone: Asia/Seoul
-
-### 2. Att-Mint 공격자 클라이언트 설정
-- IP: 10.50.50.17/24, GW: 10.50.50.1
-- 네트워크: att-net
-
-### 3. Splunk 로그 수집 연동 테스트
+### 공격 탐지 및 대응 실습 (siem-project 레포)
+- Phase 1: att-mint에서 Bee-box 공격 수행
+- Phase 2: Splunk 로그 분석 + 방화벽 정책 대응
+- Phase 3: SOC 관제 시뮬레이션
 
 ---
 
