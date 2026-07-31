@@ -185,13 +185,6 @@ ESXi 어댑터 순서와 pfSense vmx 번호가 MAC 주소 순서에 따라 다�
 
 ---
 
-## 다음 진행 예정
-
-### 공격 탐지 및 대응 실습 (siem-project 레포)
-- Phase 1: att-mint에서 Bee-box 공격 수행
-- Phase 2: Splunk 로그 분석 + 방화벽 정책 대응
-- Phase 3: SOC 관제 시뮬레이션
-
 ---
 
 ## 안전한 종료/시작 순서
