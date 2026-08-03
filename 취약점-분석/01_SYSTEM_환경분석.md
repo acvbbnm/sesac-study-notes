@@ -132,23 +132,66 @@ ps -ef | grep "httpd\|mysql\|rpc*"
 
 **출력 예시**
 ```
-mysql   2000  1898  ... /usr/libexec/mysqld --datadir=/var/lib/mysql ...
-apache  24342 2142  ... /usr/sbin/httpd
-rpc     1437  1     ... rpcbind
+UID     PID   PPID  C  STIME  TTY  TIME      CMD
+root    1898  1     0  Mar16  ?    00:00:00  /bin/sh /usr/bin/mysqld_safe --datadir=/var/lib/mysql ...
+mysql   2000  1898  0  Mar16  ?    00:01:58  /usr/libexec/mysqld --datadir=/var/lib/mysql --user=mysql ...
+apache  24342 2142  0  Mar21  ?    00:00:00  /usr/sbin/httpd
+rpc     1437  1     0  Mar16  ?    00:00:00  rpcbind
 ```
 
-**분석 정리 양식**
+### ps -ef 필드 설명
 
-| RUSER | Daemon (Command) | 목적 | 경로 | 비고 |
-|-------|-----------------|------|------|------|
-| root | mysqld_safe | mysql_safe 구동 확인 | datadir=/var/lib/mysql | - |
-| mysql | mysqld | mysql 구동 | datadir=/var/lib/mysql | - |
+| 필드 | 의미 | 진단 관점 |
+|------|------|----------|
+| **UID** | 프로세스를 실행한 사용자(소유자) | root로 불필요하게 실행되는 서비스 식별 (권한 최소화) |
+| **PID** | Process ID — 프로세스 고유 번호 | 프로세스 지정·종료(kill) 시 사용 |
+| **PPID** | Parent PID — 부모 프로세스의 PID | 어떤 프로세스가 자식을 띄웠는지 추적. 비정상 부모 = 악성 의심 |
+| **C** | CPU 사용률(스케줄링 지표) | 비정상적으로 높으면 이상 프로세스 의심 |
+| **STIME** | 프로세스 시작 시각 | 서버 부팅 시각과 다른 임의 실행 프로세스 탐지 |
+| **TTY** | 제어 터미널 (`?`=터미널 없음=데몬) | `?`는 백그라운드 데몬, `pts/0`은 사용자 세션 |
+| **TIME** | 누적 CPU 사용 시간 | 장시간 점유 프로세스 식별 |
+| **CMD** | 실행 명령어(전체 경로+인자) | 실제 실행 파일 경로·옵션 확인 |
 
-> 어떤 계정으로 어떤 데몬이 구동되는지 확인 → 권한 오용·불필요 서비스 식별.
+### PID / PPID 계층 관계
+
+```
+PID 1 (systemd 또는 init)      ← 모든 프로세스의 최상위 부모
+ └─ PID 1898  mysqld_safe      (PPID=1,    root로 구동)
+     └─ PID 2000  mysqld       (PPID=1898, mysql 계정으로 실제 DB 구동)
+```
+
+- **PPID로 부모를 추적**하면 프로세스가 정상 경로로 뜬 것인지 확인 가능
+- 예: `mysqld`(PID 2000)의 PPID가 1898(mysqld_safe)이므로 정상. 만약 웹서버(httpd)의 자식으로 셸(/bin/sh)이 떠 있다면 **웹쉘·명령 인젝션** 의심
+- PID 1의 부모(PPID 0)는 커널. init/systemd가 고아 프로세스를 입양
+
+### 분석 정리 양식
+
+| RUSER (UID) | PID | PPID | Daemon (CMD) | 목적 | 비고 |
+|------|-----|------|------|------|------|
+| root | 1898 | 1 | mysqld_safe | mysql 안전 구동 래퍼 | root 실행 |
+| mysql | 2000 | 1898 | mysqld | 실제 DB 구동 | mysql 계정(권한 분리) |
+| apache | 24342 | 2142 | httpd | 웹 서비스 | apache 계정 |
+| rpc | 1437 | 1 | rpcbind | RPC 포트매퍼 | ⚠️ 불필요 시 중지(U-42) |
+
+> 어떤 **계정(UID)** 으로 어떤 데몬이 구동되는지, **PPID로 부모-자식 관계**가 정상인지 확인 → 권한 오용·불필요 서비스·비정상 프로세스 식별.
+
+### 관련 명령어
+
+```bash
+ps -ef                     # 전체 프로세스 (UID/PID/PPID/CMD)
+ps -ef | grep <서비스명>    # 특정 서비스 프로세스 필터
+ps aux                     # BSD 스타일 (CPU/MEM 사용률 포함)
+pstree -p                  # 프로세스 부모-자식 트리 시각화
+ps -ef --forest            # 계층(트리) 형태로 출력
+kill -9 <PID>              # 프로세스 강제 종료
+```
+
+> **`ps -ef` 옵션**: `-e` 모든 프로세스, `-f` 상세 포맷(UID·PPID·STIME 등 전체 필드)
 
 ---
 
 ## 5. 계정 분석
+
 
 **명령어**
 ```bash
