@@ -6,6 +6,8 @@
 
 ## 1. 가상환경 구성 (VirtualBox)
 
+진단 실습은 실제 운영 시스템에 영향을 주지 않도록 가상머신(VM)에서 수행한다.
+
 ```
 1. https://www.virtualbox.org/ 접속 → 다운로드 및 설치
 2. 환경 설정 → 호스트 키 조합 단축키 설정
@@ -15,22 +17,38 @@
 6. Putty로 가상 머신 SSH 접근
 ```
 
+**호스트 키(Host Key)**: VM 화면에 갇힌 마우스·키보드를 호스트로 되돌리는 키.
+- VirtualBox 기본값: **오른쪽 Ctrl** (창 우측 하단에 현재 호스트 키 표시)
+- VMware 기본값: **Ctrl + Alt**
+
+**SSH 접속 (PuTTY)**
+```
+Host Name: <VM IP>   Port: 22   Connection type: SSH
+```
+> 비밀번호 입력 시 화면에 아무것도 표시되지 않는 것이 정상(에코 없음).
+
 ---
 
 ## 2. 기본정보 수집
 
-진단 대상의 플랫폼과 버전을 파악.
+진단 대상의 플랫폼과 버전을 파악. **버전 정보는 패치 관리(U-64/W-38)·EOS 판단의 기준**이 된다.
 
-| 항목 | 내용 |
-|------|------|
-| **OS** | Platform 명 & 버전 (예: CentOS 6.x) |
-| **DBMS** | Platform 명 & 버전 (예: MySQL 5.x) |
-| **WEB Server** | Platform 명 & 버전 (예: Apache 2.x) |
-| **WAS** | Platform 명 & 버전 (예: Tomcat) |
+| 항목 | 내용 | 확인 명령어 |
+|------|------|-------------|
+| **OS** | 배포판 & 커널 버전 (예: CentOS 7.9) | `cat /etc/*release`, `uname -a` |
+| **DBMS** | DB 종류 & 버전 (예: MySQL 5.7) | `mysql --version`, `sqlplus -v` |
+| **WEB Server** | 웹서버 & 버전 (예: Apache 2.4) | `httpd -v`, `nginx -v` |
+| **WAS** | 애플리케이션 서버 (예: Tomcat 9) | `catalina.sh version` |
+
+**EOS(End of Service) 개념**  
+벤더의 기술 지원·보안 패치가 종료된 상태. EOS 제품은 신규 취약점이 나와도 패치가 제공되지 않으므로 그 자체로 **심각한 취약점**. 기본정보 수집 시 각 플랫폼의 EOS 도래 여부를 반드시 확인한다.
+
+예) CentOS 6 (2020 EOS), CentOS 8 (2021 EOS), Windows Server 2008 (2020 EOS)
 
 ---
 
 ## 3. 포트 분석
+
 
 **명령어**
 ```bash
@@ -195,10 +213,12 @@ kill -9 <PID>              # 프로세스 강제 종료
 
 **명령어**
 ```bash
-cat /etc/passwd | grep bash
+cat /etc/passwd | grep bash     # 로그인 셸(bash)이 부여된 계정만 필터
+cat /etc/passwd                 # 전체 계정
+cat /etc/shadow                 # 암호화된 비밀번호 (root만 열람)
 ```
 
-**출력 예시**
+**출력 예시 (/etc/passwd)**
 ```
 root:x:0:0:root:/root:/bin/bash
 adiosl:x:500:500:adiosl:/home/adiosl:/bin/bash
@@ -206,14 +226,60 @@ mysql:x:27:27:MySQL Server:/var/lib/mysql:/bin/bash
 cubrid:x:501:501::/home/cubrid:/bin/bash
 ```
 
-**분석 정리 양식**
+### /etc/passwd 필드 구조 (`:` 구분 7개 필드)
 
-| Username | Account Info | Home directory | Command/shell | 비고 |
-|----------|-------------|----------------|---------------|------|
-| root | 관리자 계정 | /root | /bin/bash | 최고관리자 |
-| mysql | mysql 구동 계정 | /var/lib/mysql | /bin/bash | 서비스 계정 |
+```
+  root : x : 0 : 0 : root : /root : /bin/bash
+   ①    ②   ③   ④    ⑤      ⑥        ⑦
+```
 
-> 로그인 가능한 계정(`/bin/bash`), 서비스 계정, UID 0 계정을 식별.
+| # | 필드 | 예시 | 의미 / 진단 관점 |
+|:-:|------|------|------|
+| ① | Username | root | 계정 이름 |
+| ② | Password | x | 비밀번호 표시. `x`=shadow 파일에 암호화 저장(정상). 실제 해시가 여기 있으면 취약(U-04) |
+| ③ | **UID** | 0 | 사용자 ID. **0 = 최고관리자(root)**. root 외 UID 0 존재 시 취약(U-05) |
+| ④ | GID | 0 | 기본 그룹 ID. 존재하지 않는 GID 금지(U-09) |
+| ⑤ | Comment | root | 계정 설명(GECOS) |
+| ⑥ | Home Directory | /root | 홈 디렉터리 경로. 권한 점검 대상(U-31) |
+| ⑦ | Login Shell | /bin/bash | 로그인 셸. 서비스 계정에 셸 부여 시 취약(U-11) |
+
+### UID 체계 (리눅스 기준)
+
+| UID 범위 | 분류 | 설명 |
+|---------|------|------|
+| **0** | 최고관리자 | root 전용. 중복 금지(U-05) |
+| 1 ~ 999 | 시스템/서비스 계정 | 데몬 실행용 (mysql, apache 등). 로그인 불필요 → 셸 제한 |
+| **1000 이상** | 일반 사용자 계정 | 실제 로그인 사용자 (CentOS 7+/Ubuntu는 1000부터, 구버전은 500부터) |
+
+> 예시의 `mysql`(UID 27)은 시스템 계정인데 `/bin/bash` 셸이 부여됨 → **U-11 취약** 후보  
+> 예시의 `adiosl`(UID 500), `cubrid`(UID 501)는 일반 사용자 계정
+
+### 로그인 셸의 의미
+
+| 셸 | 로그인 | 용도 |
+|------|:---:|------|
+| `/bin/bash`, `/bin/sh` | 가능 | 로그인 가능 계정 |
+| `/sbin/nologin` | 불가 | 로그인 차단(서비스 계정 권장) |
+| `/bin/false` | 불가 | 로그인 즉시 종료 |
+
+### 분석 정리 양식
+
+| Username | UID | Home directory | Login Shell | 비고 |
+|----------|:---:|----------------|-------------|------|
+| root | 0 | /root | /bin/bash | 최고관리자 |
+| mysql | 27 | /var/lib/mysql | /bin/bash | 서비스 계정 ⚠️ 셸 제한 필요(U-11) |
+| adiosl | 500 | /home/adiosl | /bin/bash | 일반 사용자 |
+
+> 로그인 가능 계정(`/bin/bash`), 서비스 계정의 셸 부여, **UID 0 중복**, 불필요 계정을 식별.
+
+### 관련 명령어
+
+```bash
+awk -F: '$3==0 {print $1}' /etc/passwd   # UID 0 계정 전체 출력 (root 외 존재 시 취약)
+awk -F: '$3>=1000 {print $1}' /etc/passwd # 일반 사용자 계정 목록
+cat /etc/group                            # 그룹 정보 (wheel 그룹 등)
+lastlog                                   # 계정별 최종 로그인 기록 (미사용 계정 식별)
+```
 
 ---
 
@@ -222,8 +288,8 @@ cubrid:x:501:501::/home/cubrid:/bin/bash
 환경분석 완료 후 다음 항목을 종합 정리:
 
 - **기본 정보**: OS/DBMS/WEB/WAS 버전 및 EOS(지원 종료) 여부
-- **Port 정보**: 불필요하게 열린 포트, 외부 노출 서비스
-- **Daemon 정보**: 불필요 서비스, 취약 데몬(rpcbind, telnet 등)
-- **계정 정보**: 불필요 계정, UID 0 중복, 서비스 계정의 쉘 부여 여부
+- **Port 정보**: 불필요하게 열린 포트, 외부(0.0.0.0) 노출 서비스
+- **Daemon 정보**: 불필요 서비스, 취약 데몬(rpcbind, telnet 등), 비정상 부모 프로세스
+- **계정 정보**: 불필요 계정, UID 0 중복, 서비스 계정의 셸 부여 여부
 
 > 이 총평을 기반으로 U/W 항목별 상세 진단을 진행.
