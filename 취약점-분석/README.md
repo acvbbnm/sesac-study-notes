@@ -13,9 +13,9 @@ KISA 주요정보통신기반시설 기술적 취약점 분석·평가(2026) 기
 |------|:---:|:---:|------|------|
 | **LINUX** | 67 | ✅ 완료 | 양호 38 / 취약 23 / 인터뷰 6 | [10](./10_진단결과_LINUX_CentOS6.9.md) |
 | **WEB (Apache/Tomcat)** | 26 | ✅ 완료 | 양호 5 / 취약 19 / N/A 2 | [11](./11_진단결과_WEB_Apache_CentOS6.9.md) |
-| **Windows** | 64 | ⬜ 예정 | - | - |
+| **Windows** (Server 2012 R2, AD) | 64 | ✅ 완료 | 양호 40 / 취약 19 / 인터뷰 5 | [12](./12_진단결과_Windows_Server2012.md) |
 
-> 2일차까지 LINUX·Apache 진단 완료. Windows 진단은 이후 진행 예정.
+> LINUX · Apache · Windows 3개 대상 진단 완료. 병합 결과보고서: `Linux_Apache_Windows_결과보고서_병합완료.xlsx`
 
 ## 문서 목록
 
@@ -30,6 +30,7 @@ KISA 주요정보통신기반시설 기술적 취약점 분석·평가(2026) 기
 | [06_환경분석_실전예시_CentOS6.9](./06_환경분석_실전예시_CentOS6.9.md) | CentOS 6.9 실서버 환경분석 완료 예시 (포트·데몬·계정·총평) |
 | [10_진단결과_LINUX_CentOS6.9](./10_진단결과_LINUX_CentOS6.9.md) | CentOS 6.9 실서버 67개 항목 진단 결과 완성본 (양호38/취약23/인터뷰6) |
 | [11_진단결과_WEB_Apache_CentOS6.9](./11_진단결과_WEB_Apache_CentOS6.9.md) | CentOS 6.9 웹(Apache/Tomcat) 26개 항목 진단 결과 + Apache 진단 명령어·LogFormat |
+| [12_진단결과_Windows_Server2012](./12_진단결과_Windows_Server2012.md) | Windows Server 2012 R2(AD) 64개 항목 진단 결과 (양호40/취약19/인터뷰5) |
 | [07_계층별_로그_정리](./07_계층별_로그_정리.md) | OS/DBMS/WebServer/WAS 계층별 로그 파일·조회·침해분석 (보충) |
 | [08_RPC_vs_xinetd_서비스개념](./08_RPC_vs_xinetd_서비스개념.md) | RPC 서비스 vs xinetd 데몬 개념·차이·진단 (보충) | 접근통제·공유서비스·패치·메일·SNMP·NTP·로그 등 강의 실무 노트 |
 
