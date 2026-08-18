@@ -1,0 +1,32 @@
+# 분석 산출물 / 실습 부산물
+*.i64
+*.idb
+*.id0
+*.id1
+*.id2
+*.nam
+*.til
+
+# 크래시·코퍼스·퍼징 출력
+crashes/
+corpus/
+out/
+*.log
+
+# PoC 실행 부산물
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 비밀정보 (절대 커밋 금지)
+.env
+*.key
+*.pem
+secrets*
