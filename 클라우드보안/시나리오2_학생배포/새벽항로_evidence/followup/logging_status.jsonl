@@ -1,0 +1,2 @@
+{"time": "2026-07-14T17:00:00Z", "trail": "harbor-org-audit", "is_logging": true, "management_read_write": "All", "s3_data_selector": "arn:aws:s3:::harborcart-documents-synthetic/", "collector_status": "healthy", "record_id": "c7150215-7d94-5cda-a71e-94674c591119"}
+{"time": "2026-07-14T18:00:00Z", "trail": "harbor-org-audit", "is_logging": true, "management_read_write": "All", "s3_data_selector": "arn:aws:s3:::harborcart-documents-synthetic/", "collector_status": "healthy", "record_id": "c60718f8-4548-5a53-a5f4-3f425602236c"}

@@ -1,0 +1,15 @@
+{
+  "HarborRenderRole": [
+    "198.51.100.10"
+  ],
+  "HarborBackupRole": [
+    "198.51.100.10",
+    "198.51.100.11"
+  ],
+  "HarborBuildRole": [
+    "198.51.100.10"
+  ],
+  "HarborOpsRole": [
+    "198.51.100.10"
+  ]
+}

@@ -1,0 +1,90 @@
+[
+  {
+    "eventID": "toy-1",
+    "eventTime": "2026-05-01T12:01:00Z",
+    "eventName": "ConsoleLogin",
+    "userIdentity": {
+      "type": "Root"
+    },
+    "responseElements": {
+      "ConsoleLogin": "Success"
+    }
+  },
+  {
+    "eventID": "toy-2",
+    "eventTime": "2026-05-01T12:02:00Z",
+    "eventName": "ConsoleLogin",
+    "userIdentity": {
+      "type": "Root"
+    },
+    "responseElements": {
+      "ConsoleLogin": "Failure"
+    }
+  },
+  {
+    "eventID": "toy-3",
+    "eventTime": "2026-05-01T12:03:00Z",
+    "eventName": "ConsoleLogin",
+    "userIdentity": {
+      "type": "IAMUser"
+    },
+    "responseElements": {
+      "ConsoleLogin": "Success"
+    }
+  },
+  {
+    "eventID": "toy-4",
+    "eventTime": "2026-05-01T12:04:00Z",
+    "eventName": "ConsoleLogin",
+    "userIdentity": {
+      "type": "Root"
+    },
+    "responseElements": {}
+  },
+  {
+    "eventID": "toy-5",
+    "eventTime": "2026-05-01T12:02:00Z",
+    "eventName": "CreateAccessKey",
+    "userIdentity": {
+      "type": "IAMUser"
+    },
+    "responseElements": {}
+  },
+  {
+    "eventID": "toy-6",
+    "eventTime": "2026-05-01T12:04:00Z",
+    "eventName": "CreateAccessKey",
+    "userIdentity": {
+      "type": "IAMUser"
+    },
+    "responseElements": {},
+    "errorCode": "AccessDenied"
+  },
+  {
+    "eventID": "toy-7",
+    "eventTime": "2026-05-01T12:07:00Z",
+    "eventName": "CreateAccessKey",
+    "userIdentity": {
+      "type": "IAMUser"
+    },
+    "responseElements": {}
+  },
+  {
+    "eventID": "toy-8",
+    "eventTime": "2026-05-01T03:02:00Z",
+    "eventName": "CreateAccessKey",
+    "userIdentity": {
+      "type": "IAMUser"
+    },
+    "responseElements": {}
+  },
+  {
+    "eventID": "toy-9",
+    "eventTime": "2026-05-01T12:03:00Z",
+    "eventName": "CreateAccessKey",
+    "userIdentity": {
+      "type": "AssumedRole"
+    },
+    "responseElements": {}
+  }
+]

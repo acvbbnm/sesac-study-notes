@@ -1,0 +1,13 @@
+{
+  "time": "2026-07-14T17:10:00Z",
+  "replacement": "render-03",
+  "source": "Responder change-validation export",
+  "checks": {
+    "preview_health_check": "passed",
+    "public_template_read": "allowed",
+    "internal_object_read": "denied",
+    "user_schedule_render_helper": "absent on clean replacement",
+    "organization_audit_logging": "enabled"
+  },
+  "caveat": "Configuration and functional checks; not a proof that every possible persistence mechanism was searched."
+}

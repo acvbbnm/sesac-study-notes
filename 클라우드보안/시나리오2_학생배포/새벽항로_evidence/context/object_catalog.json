@@ -1,0 +1,90 @@
+[
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "reports/customer-export-0714-01.csv.gz",
+    "size_bytes": 4194304,
+    "classification": "Confidential",
+    "owner": "Customer operations",
+    "contains": "Synthetic customer-export category; actual rows not supplied"
+  },
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "reports/customer-export-0714-02.csv.gz",
+    "size_bytes": 4194304,
+    "classification": "Confidential",
+    "owner": "Customer operations",
+    "contains": "Synthetic customer-export category; actual rows not supplied"
+  },
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "reports/customer-export-0714-03.csv.gz",
+    "size_bytes": 4194304,
+    "classification": "Confidential",
+    "owner": "Customer operations",
+    "contains": "Synthetic customer-export category; actual rows not supplied"
+  },
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "reports/customer-export-0714-04.csv.gz",
+    "size_bytes": 4194304,
+    "classification": "Confidential",
+    "owner": "Customer operations",
+    "contains": "Synthetic customer-export category; actual rows not supplied"
+  },
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "reports/customer-export-0714-05.csv.gz",
+    "size_bytes": 4194304,
+    "classification": "Confidential",
+    "owner": "Customer operations",
+    "contains": "Synthetic customer-export category; actual rows not supplied"
+  },
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "reports/customer-export-0714-06.csv.gz",
+    "size_bytes": 4194304,
+    "classification": "Confidential",
+    "owner": "Customer operations",
+    "contains": "Synthetic customer-export category; actual rows not supplied"
+  },
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "reports/customer-export-0714-07.csv.gz",
+    "size_bytes": 4194304,
+    "classification": "Confidential",
+    "owner": "Customer operations",
+    "contains": "Synthetic customer-export category; actual rows not supplied"
+  },
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "internal/pricing-2026.xlsx",
+    "size_bytes": 2097152,
+    "classification": "Confidential",
+    "owner": "Sales",
+    "contains": "Pricing category; contents not supplied"
+  },
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "internal/service-config.json",
+    "size_bytes": 4096,
+    "classification": "Internal",
+    "owner": "Platform",
+    "contains": "Configuration category; contents not supplied"
+  },
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "restricted/payroll-2026.xlsx",
+    "size_bytes": 3145728,
+    "classification": "Restricted",
+    "owner": "People",
+    "contains": "Payroll category; contents not supplied"
+  },
+  {
+    "bucket": "harborcart-documents-synthetic",
+    "key": "restricted/identity-archive.zip",
+    "size_bytes": 6291456,
+    "classification": "Restricted",
+    "owner": "Security",
+    "contains": "Restricted archive category; contents not supplied"
+  }
+]

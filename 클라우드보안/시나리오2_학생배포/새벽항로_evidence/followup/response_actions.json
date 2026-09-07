@@ -1,0 +1,30 @@
+[
+  {
+    "time": "2026-07-14T16:44:00Z",
+    "action": "preserve_evidence",
+    "target": "i-07a11000000000001",
+    "status": "completed",
+    "note": "Responder retained snapshot and runtime evidence before replacement"
+  },
+  {
+    "time": "2026-07-14T16:45:00Z",
+    "action": "isolate_instance",
+    "target": "i-07a11000000000001",
+    "status": "completed",
+    "note": "Inbound/outbound workload traffic isolated; copied credentials are a separate concern"
+  },
+  {
+    "time": "2026-07-14T16:52:00Z",
+    "action": "revoke_prior_role_sessions",
+    "target": "HarborRenderRole",
+    "status": "completed",
+    "note": "Existing sessions issued before this timestamp denied; S3 role scope narrowed; surviving render-02 client receives a fresh session at 16:53 UTC"
+  },
+  {
+    "time": "2026-07-14T17:05:00Z",
+    "action": "restore_clean_service",
+    "target": "render-03 (replacement)",
+    "status": "completed",
+    "note": "Clean replacement; public template access allowed and internal objects denied in responder validation"
+  }
+]

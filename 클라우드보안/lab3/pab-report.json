@@ -1,0 +1,118 @@
+{
+  "generatedAt": "2026-09-07T06:07:41.783094+00:00",
+  "region": "ap-northeast-2",
+  "check": "S3 Public Access Block (Top10 외 추가 항목)",
+  "summary": {
+    "CRITICAL": 0,
+    "HIGH": 6,
+    "MEDIUM": 0,
+    "LOW": 9
+  },
+  "findings": [
+    {
+      "service": "S3",
+      "title": "Public Access Block fully enabled",
+      "severity": "LOW",
+      "resource": "access-log-peanutz",
+      "detail": "all four flags True"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block fully enabled",
+      "severity": "LOW",
+      "resource": "aws-cloudtrail-logs-885296137678-25816a06",
+      "detail": "all four flags True"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block fully enabled",
+      "severity": "LOW",
+      "resource": "croner-buckt-quefnoi",
+      "detail": "all four flags True"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block fully enabled",
+      "severity": "LOW",
+      "resource": "do-not-delete-ssm-diagnosis-885296137678-ap-northeast-2-f85sb",
+      "detail": "all four flags True"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block fully enabled",
+      "severity": "LOW",
+      "resource": "fininfra-win-validate-1773066249-28654",
+      "detail": "all four flags True"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "jamo.peanutz.site",
+      "detail": "disabled=['BlockPublicAcls', 'IgnorePublicAcls', 'BlockPublicPolicy', 'RestrictPublicBuckets']"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block fully enabled",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-lg-apnortheast2-885296137678",
+      "detail": "all four flags True"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "lab-cloudsec-dev-pb-apnortheast2-885296137678",
+      "detail": "disabled=['BlockPublicPolicy', 'RestrictPublicBuckets']"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "lab-cloudsec-dev-sa-apnortheast2-885296137678",
+      "detail": "disabled=['BlockPublicAcls', 'IgnorePublicAcls', 'BlockPublicPolicy', 'RestrictPublicBuckets']"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block fully enabled",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-tr-apnortheast2-885296137678",
+      "detail": "all four flags True"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block fully enabled",
+      "severity": "LOW",
+      "resource": "lightasil-wireguard-accesslog",
+      "detail": "all four flags True"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "pub-share-dttlo1557",
+      "detail": "disabled=['BlockPublicAcls', 'IgnorePublicAcls', 'BlockPublicPolicy', 'RestrictPublicBuckets']"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "resume-cv.peanutz.site",
+      "detail": "disabled=['BlockPublicAcls', 'IgnorePublicAcls', 'BlockPublicPolicy', 'RestrictPublicBuckets']"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "s3share.peanutz.site",
+      "detail": "disabled=['BlockPublicAcls', 'IgnorePublicAcls', 'BlockPublicPolicy', 'RestrictPublicBuckets']"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block fully enabled",
+      "severity": "LOW",
+      "resource": "web-scan-pipeliner",
+      "detail": "all four flags True"
+    }
+  ]
+}

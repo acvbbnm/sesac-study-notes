@@ -1,0 +1,21 @@
+{
+  "format": "Synthetic normalized investigation export; see data dictionary",
+  "event_time_zone": "UTC",
+  "display_time_zone": "Asia/Seoul",
+  "clock_skew_assumption_seconds": 1,
+  "initial_event_end": "2026-07-14T16:40:00Z",
+  "final_event_end": "2026-07-14T18:00:00Z",
+  "collected_after": "2026-07-15T00:00:00Z",
+  "management_events": "All reads and writes in the fictional account during the observation period",
+  "s3_data_events": "GetObject coverage on all prefixes of harborcart-documents-synthetic; enabled before the incident",
+  "s3_server_logs": "Matching object access records supplied; duplicates possible; production delivery is best effort",
+  "host": "Normalized endpoint process/request context, metadata category and scheduler observations; no full command arguments or payloads",
+  "network": "Selected ENI VPC flow records, network metadata only. Metadata-service traffic is represented only by host telemetry.",
+  "limitations": [
+    "HTTP request bodies and exact vulnerable code not supplied",
+    "S3 object contents and record/person counts not supplied",
+    "No logs beyond the stated observation window",
+    "No evidence about resources outside the covered account and bucket",
+    "A successful response does not prove the recipient retained or redistributed the bytes"
+  ]
+}

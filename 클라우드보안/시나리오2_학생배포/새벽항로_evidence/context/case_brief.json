@@ -1,0 +1,23 @@
+{
+  "case_id": "HC-2026-0715",
+  "title": "새벽항로: 문서 미리보기 서버의 야간 사건",
+  "company": "HarborCart (fictional)",
+  "account_id": "123456789012",
+  "region": "ap-southeast-1",
+  "triage": {
+    "time": "2026-07-14T16:32:00Z",
+    "instance_id": "i-07a11000000000001",
+    "message": "Document preview errors and an alert about an instance role observed from an unfamiliar network require investigation."
+  },
+  "baseline_end": "2026-07-14T00:00:00Z",
+  "analysis_day": "2026-07-14T00:00:00Z",
+  "questions": [
+    "What happened on the instance?",
+    "Which role session was used and from where?",
+    "What data was actually returned?",
+    "Which attempted actions failed?",
+    "Was host isolation sufficient?",
+    "What is the evidence-supported closure scope?"
+  ],
+  "synthetic": true
+}

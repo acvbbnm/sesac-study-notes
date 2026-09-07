@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-07-14T16:35:00Z",
+  "role": "HarborRenderRole",
+  "source": "Synthetic responder effective-permission review; not a full IAM policy export",
+  "business_required_get_prefixes": [
+    "public/templates/"
+  ],
+  "observed_allowed_get_prefixes": [
+    "public/",
+    "reports/",
+    "internal/"
+  ],
+  "observed_denied_get_prefixes": [
+    "restricted/"
+  ],
+  "source_network_condition_present": false,
+  "create_iam_access_key_allowed": false,
+  "stop_cloudtrail_logging_allowed": false,
+  "scope": "Only the included role, bucket, and named API operations; other policies are outside this review"
+}

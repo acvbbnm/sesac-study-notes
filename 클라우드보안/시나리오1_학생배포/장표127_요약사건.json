@@ -1,0 +1,447 @@
+{
+  "source": "교안 v0901 실제 127페이지에서 전사",
+  "date_timezone": "장표에 날짜·시간대 미제공. 시각의 상대 순서만 사용.",
+  "relationship": "3주 CSV와 별개 사건",
+  "rows": [
+    {
+      "slide_line": 1,
+      "clock": "08:52:10",
+      "event_label": "DescribeInstances",
+      "actor": "alice",
+      "source_ip": "198.51.100.24",
+      "result": "OK",
+      "notes": "",
+      "source_text": "08:52:10 DescribeInstances    alice        198.51.100.24  OK"
+    },
+    {
+      "slide_line": 2,
+      "clock": "08:53:41",
+      "event_label": "ListBuckets",
+      "actor": "alice",
+      "source_ip": "198.51.100.24",
+      "result": "OK",
+      "notes": "",
+      "source_text": "08:53:41 ListBuckets          alice        198.51.100.24  OK"
+    },
+    {
+      "slide_line": 3,
+      "clock": "08:55:02",
+      "event_label": "AssumeRole",
+      "actor": "ci-deploy",
+      "source_ip": "198.51.100.77",
+      "result": "OK",
+      "notes": "",
+      "source_text": "08:55:02 AssumeRole           ci-deploy    198.51.100.77  OK"
+    },
+    {
+      "slide_line": 4,
+      "clock": "08:55:03",
+      "event_label": "PutObject",
+      "actor": "ci-deploy",
+      "source_ip": "198.51.100.77",
+      "result": "OK",
+      "notes": "",
+      "source_text": "08:55:03 PutObject            ci-deploy    198.51.100.77  OK"
+    },
+    {
+      "slide_line": 5,
+      "clock": "08:57:19",
+      "event_label": "DescribeVolumes",
+      "actor": "bob",
+      "source_ip": "198.51.100.31",
+      "result": "OK",
+      "notes": "",
+      "source_text": "08:57:19 DescribeVolumes      bob          198.51.100.31  OK"
+    },
+    {
+      "slide_line": 6,
+      "clock": "09:01:44",
+      "event_label": "GetObject",
+      "actor": "ci-deploy",
+      "source_ip": "198.51.100.77",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:01:44 GetObject            ci-deploy    198.51.100.77  OK"
+    },
+    {
+      "slide_line": 7,
+      "clock": "09:03:22",
+      "event_label": "ConsoleLogin",
+      "actor": "alice",
+      "source_ip": "198.51.100.24",
+      "result": "OK",
+      "notes": "MFA=Y",
+      "source_text": "09:03:22 ConsoleLogin         alice        198.51.100.24  OK MFA=Y"
+    },
+    {
+      "slide_line": 8,
+      "clock": "09:05:57",
+      "event_label": "ListUsers",
+      "actor": "alice",
+      "source_ip": "198.51.100.24",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:05:57 ListUsers            alice        198.51.100.24  OK"
+    },
+    {
+      "slide_line": 9,
+      "clock": "09:08:12",
+      "event_label": "DescribeInstances",
+      "actor": "bob",
+      "source_ip": "198.51.100.31",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:08:12 DescribeInstances    bob          198.51.100.31  OK"
+    },
+    {
+      "slide_line": 10,
+      "clock": "09:11:36",
+      "event_label": "CreateSnapshot",
+      "actor": "ci-deploy",
+      "source_ip": "198.51.100.77",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:11:36 CreateSnapshot       ci-deploy    198.51.100.77  OK"
+    },
+    {
+      "slide_line": 11,
+      "clock": "09:13:58",
+      "event_label": "ConsoleLogin",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "FAIL",
+      "notes": "(Wrong pw)",
+      "source_text": "09:13:58 ConsoleLogin         svc-backup   45.77.202.18   FAIL (Wrong pw)"
+    },
+    {
+      "slide_line": 12,
+      "clock": "09:14:02",
+      "event_label": "ConsoleLogin",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "MFA=N",
+      "source_text": "09:14:02 ConsoleLogin         svc-backup   45.77.202.18   OK  MFA=N"
+    },
+    {
+      "slide_line": 13,
+      "clock": "09:14:40",
+      "event_label": "GetCallerIdentity",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:14:40 GetCallerIdentity    svc-backup   45.77.202.18   OK"
+    },
+    {
+      "slide_line": 14,
+      "clock": "09:15:12",
+      "event_label": "ListUsers",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:15:12 ListUsers            svc-backup   45.77.202.18   OK"
+    },
+    {
+      "slide_line": 15,
+      "clock": "09:15:48",
+      "event_label": "ListRoles",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:15:48 ListRoles            svc-backup   45.77.202.18   OK"
+    },
+    {
+      "slide_line": 16,
+      "clock": "09:16:30",
+      "event_label": "GetAccountSummary",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:16:30 GetAccountSummary    svc-backup   45.77.202.18   OK"
+    },
+    {
+      "slide_line": 17,
+      "clock": "09:17:22",
+      "event_label": "CreateAccessKey",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "key=AKIA...7QF",
+      "source_text": "09:17:22 CreateAccessKey      svc-backup   45.77.202.18   OK  key=AKIA...7QF"
+    },
+    {
+      "slide_line": 18,
+      "clock": "09:18:05",
+      "event_label": "DescribeInstances",
+      "actor": "bob",
+      "source_ip": "198.51.100.31",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:18:05 DescribeInstances    bob          198.51.100.31  OK"
+    },
+    {
+      "slide_line": 19,
+      "clock": "09:18:44",
+      "event_label": "ListAttachedUserPol.",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:18:44 ListAttachedUserPol. svc-backup   45.77.202.18   OK"
+    },
+    {
+      "slide_line": 20,
+      "clock": "09:19:03",
+      "event_label": "AttachUserPolicy",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "Administrator",
+      "source_text": "09:19:03 AttachUserPolicy     svc-backup   45.77.202.18   OK  Administrator"
+    },
+    {
+      "slide_line": 21,
+      "clock": "09:19:55",
+      "event_label": "GetUser",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:19:55 GetUser              svc-backup   45.77.202.18   OK"
+    },
+    {
+      "slide_line": 22,
+      "clock": "09:20:10",
+      "event_label": "ListBuckets",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:20:10 ListBuckets          svc-backup   45.77.202.18   OK"
+    },
+    {
+      "slide_line": 23,
+      "clock": "09:20:48",
+      "event_label": "GetBucketPolicy",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "prod-backup",
+      "source_text": "09:20:48 GetBucketPolicy     svc-backup  45.77.202.18  OK  prod-backup"
+    },
+    {
+      "slide_line": 24,
+      "clock": "09:21:15",
+      "event_label": "GetBucketAcl",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "prod-backup",
+      "source_text": "09:21:15 GetBucketAcl        svc-backup  45.77.202.18  OK  prod-backup"
+    },
+    {
+      "slide_line": 25,
+      "clock": "09:21:47",
+      "event_label": "GetBucketLocation",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:21:47 GetBucketLocation   svc-backup  45.77.202.18  OK"
+    },
+    {
+      "slide_line": 26,
+      "clock": "09:22:35",
+      "event_label": "GetObject",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "db-dump-1.gz",
+      "source_text": "09:22:35 GetObject           svc-backup  45.77.202.18  OK  db-dump-1.gz"
+    },
+    {
+      "slide_line": 27,
+      "clock": "09:22:58",
+      "event_label": "GetObject",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "db-dump-2.gz",
+      "source_text": "09:22:58 GetObject           svc-backup  45.77.202.18  OK  db-dump-2.gz"
+    },
+    {
+      "slide_line": 28,
+      "clock": "09:23:26",
+      "event_label": "GetObject",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "hr-pay.csv",
+      "source_text": "09:23:26 GetObject           svc-backup  45.77.202.18  OK  hr-pay.csv"
+    },
+    {
+      "slide_line": 29,
+      "clock": "09:23:40",
+      "event_label": "PutObject",
+      "actor": "ci-deploy",
+      "source_ip": "198.51.100.77",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:23:40 PutObject           ci-deploy   198.51.100.77 OK"
+    },
+    {
+      "slide_line": 30,
+      "clock": "09:24:11",
+      "event_label": "GetObject",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "keys.txt",
+      "source_text": "09:24:11 GetObject           svc-backup  45.77.202.18  OK  keys.txt"
+    },
+    {
+      "slide_line": 31,
+      "clock": "09:24:52",
+      "event_label": "ListObjectsV2",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "prod-backup",
+      "source_text": "09:24:52 ListObjectsV2       svc-backup  45.77.202.18  OK  prod-backup"
+    },
+    {
+      "slide_line": 32,
+      "clock": "09:25:33",
+      "event_label": "CreateUser",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "new=support2",
+      "source_text": "09:25:33 CreateUser          svc-backup  45.77.202.18  OK  new=support2"
+    },
+    {
+      "slide_line": 33,
+      "clock": "09:26:04",
+      "event_label": "AttachUserPolicy",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "to:support2",
+      "source_text": "09:26:04 AttachUserPolicy    svc-backup  45.77.202.18  OK  to:support2"
+    },
+    {
+      "slide_line": 34,
+      "clock": "09:26:33",
+      "event_label": "StopLogging",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "DENIED",
+      "notes": "",
+      "source_text": "09:26:33 StopLogging         svc-backup  45.77.202.18  DENIED"
+    },
+    {
+      "slide_line": 35,
+      "clock": "09:27:10",
+      "event_label": "DeleteTrail",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "DENIED",
+      "notes": "",
+      "source_text": "09:27:10 DeleteTrail         svc-backup  45.77.202.18  DENIED"
+    },
+    {
+      "slide_line": 36,
+      "clock": "09:27:52",
+      "event_label": "PutBucketPolicy",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "DENIED",
+      "notes": "",
+      "source_text": "09:27:52 PutBucketPolicy     svc-backup  45.77.202.18  DENIED"
+    },
+    {
+      "slide_line": 37,
+      "clock": "09:28:36",
+      "event_label": "GetObject",
+      "actor": "svc-backup",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "db-dump-3.gz",
+      "source_text": "09:28:36 GetObject           svc-backup  45.77.202.18  OK  db-dump-3.gz"
+    },
+    {
+      "slide_line": 38,
+      "clock": "09:29:14",
+      "event_label": "DescribeInstances",
+      "actor": "bob",
+      "source_ip": "198.51.100.31",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:29:14 DescribeInstances   bob         198.51.100.31 OK"
+    },
+    {
+      "slide_line": 39,
+      "clock": "09:30:02",
+      "event_label": "CreateAccessKey",
+      "actor": "support2",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "key=AKIA2ZB",
+      "source_text": "09:30:02 CreateAccessKey     support2    45.77.202.18  OK  key=AKIA2ZB"
+    },
+    {
+      "slide_line": 40,
+      "clock": "09:31:19",
+      "event_label": "ConsoleLogin",
+      "actor": "support2",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "MFA=N",
+      "source_text": "09:31:19 ConsoleLogin        support2    45.77.202.18  OK  MFA=N"
+    },
+    {
+      "slide_line": 41,
+      "clock": "09:32:40",
+      "event_label": "ListBuckets",
+      "actor": "support2",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "",
+      "source_text": "09:32:40 ListBuckets         support2    45.77.202.18  OK"
+    },
+    {
+      "slide_line": 42,
+      "clock": "09:33:58",
+      "event_label": "GetObject",
+      "actor": "support2",
+      "source_ip": "45.77.202.18",
+      "result": "OK",
+      "notes": "db-dump-4.gz",
+      "source_text": "09:33:58 GetObject           support2    45.77.202.18  OK  db-dump-4.gz"
+    },
+    {
+      "slide_line": 43,
+      "clock": "09:35:12",
+      "event_label": "UpdateAccessKey",
+      "actor": "svc-backup",
+      "source_ip": "198.51.100.24",
+      "result": "OK",
+      "notes": "key=Inactive",
+      "source_text": "09:35:12 UpdateAccessKey     svc-backup  198.51.100.24 OK  key=Inactive"
+    },
+    {
+      "slide_line": 44,
+      "clock": "09:36:40",
+      "event_label": "DetachUserPolicy",
+      "actor": "svc-backup",
+      "source_ip": "198.51.100.24",
+      "result": "OK",
+      "notes": "Admin off",
+      "source_text": "09:36:40 DetachUserPolicy    svc-backup  198.51.100.24 OK  Admin off"
+    }
+  ]
+}

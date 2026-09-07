@@ -1,0 +1,1 @@
+{"time": "2026-07-14T16:35:00Z", "trail": "harbor-org-audit", "is_logging": true, "management_read_write": "All", "s3_data_selector": "arn:aws:s3:::harborcart-documents-synthetic/", "collector_status": "healthy", "record_id": "264f2aac-e0ca-5367-897e-54b4915924f2"}

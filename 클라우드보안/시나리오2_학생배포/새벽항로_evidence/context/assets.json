@@ -1,0 +1,58 @@
+[
+  {
+    "name": "render-01",
+    "instance_id": "i-07a11000000000001",
+    "private_ip": "10.44.1.21",
+    "eni": "eni-07a11000000000001",
+    "role": "HarborRenderRole",
+    "service": "public document preview",
+    "approved_egress": [
+      "198.51.100.10"
+    ]
+  },
+  {
+    "name": "render-02",
+    "instance_id": "i-07a11000000000002",
+    "private_ip": "10.44.1.22",
+    "eni": "eni-07a11000000000002",
+    "role": "HarborRenderRole",
+    "service": "public document preview",
+    "approved_egress": [
+      "198.51.100.10"
+    ]
+  },
+  {
+    "name": "backup-01",
+    "instance_id": "i-07a11000000000003",
+    "private_ip": "10.44.2.31",
+    "eni": "eni-07a11000000000003",
+    "role": "HarborBackupRole",
+    "service": "nightly backup",
+    "approved_egress": [
+      "198.51.100.10",
+      "198.51.100.11"
+    ]
+  },
+  {
+    "name": "build-01",
+    "instance_id": "i-07a11000000000004",
+    "private_ip": "10.44.2.41",
+    "eni": "eni-07a11000000000004",
+    "role": "HarborBuildRole",
+    "service": "artifact build",
+    "approved_egress": [
+      "198.51.100.10"
+    ]
+  },
+  {
+    "name": "bastion-01",
+    "instance_id": "i-07a11000000000005",
+    "private_ip": "10.44.0.51",
+    "eni": "eni-07a11000000000005",
+    "role": "HarborOpsRole",
+    "service": "administration",
+    "approved_egress": [
+      "198.51.100.10"
+    ]
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "change_id": "CHG-LT-203",
+    "start": "2026-07-14T15:00:00Z",
+    "end": "2026-07-14T15:25:00Z",
+    "source_ip": "198.51.100.50",
+    "scope": "render-01 and render-02 /preview",
+    "purpose": "Approved load test; elevated HTTP 500 is expected"
+  },
+  {
+    "change_id": "CHG-NAT-011",
+    "start": "2026-07-14T02:50:00Z",
+    "end": "2026-07-14T03:40:00Z",
+    "source_ip": "198.51.100.11",
+    "scope": "HarborBackupRole",
+    "purpose": "Approved backup NAT failover"
+  },
+  {
+    "change_id": "CHG-HC-041",
+    "start": "2026-07-14T15:35:00Z",
+    "end": "2026-07-14T15:45:00Z",
+    "scope": "render-01 scheduled local health check, no HTTP request context",
+    "purpose": "Approved local health task"
+  }
+]

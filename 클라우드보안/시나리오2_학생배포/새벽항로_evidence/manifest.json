@@ -1,0 +1,116 @@
+{
+  "case_id": "HC-2026-0715",
+  "algorithm": "SHA-256",
+  "files": [
+    {
+      "path": "context/assets.json",
+      "sha256": "72e809cee7c2a7f63f25a7e8a848d897cf051d73d10dbbd111540a57c1acc645",
+      "bytes": 1406
+    },
+    {
+      "path": "context/case_brief.json",
+      "sha256": "77517a9dbabf62b44d0245b7c0d9c381ce636d7dcb47fd9c301ca0e796ab82c6",
+      "bytes": 844
+    },
+    {
+      "path": "context/change_calendar.json",
+      "sha256": "240ce4866f2b0db69849da818eae7588f021b3c2d398695df814b05a73975658",
+      "bytes": 750
+    },
+    {
+      "path": "context/collection_scope.json",
+      "sha256": "b5b5831bd4eb4356cb601744dd33796949a6757c29c0cf2a06f534801ac37933",
+      "bytes": 1332
+    },
+    {
+      "path": "context/expected_sources.json",
+      "sha256": "758c2ad27a73ef03183880aba27ee1f6b3bd825405af7f6140473186f059eb04",
+      "bytes": 229
+    },
+    {
+      "path": "context/object_catalog.json",
+      "sha256": "ebb045e4cd9866aca266050aead8808cc3f522cc9529b66fe698caf35d804e9e",
+      "bytes": 3115
+    },
+    {
+      "path": "context/permission_review.json",
+      "sha256": "b9f2a410568bc41d68d9f3ca7d725acd8f192d88d079815937ce9625f68c9f28",
+      "bytes": 642
+    },
+    {
+      "path": "followup/cloudtrail.jsonl",
+      "sha256": "466ccefef1999a9fcdf9a4dd7bb33a5d271b2a276a21572d6fbbe5006cd81ef1",
+      "bytes": 24227
+    },
+    {
+      "path": "followup/host.jsonl",
+      "sha256": "df04d96fdffcb16b9e1c13ae162c92696caf489ebd763fab3f53e4aeff40f6cc",
+      "bytes": 1855
+    },
+    {
+      "path": "followup/logging_status.jsonl",
+      "sha256": "6258d29e3c8ef28b7d21e57eaa5bc9b5358dc1a8c7a81a7bb752c4d98dc70cbf",
+      "bytes": 534
+    },
+    {
+      "path": "followup/recovery_validation.json",
+      "sha256": "3b15ed71d3c64d6a28c46cc39bc6588d8e09f213de2615fba1130e6e0644f52b",
+      "bytes": 492
+    },
+    {
+      "path": "followup/response_actions.json",
+      "sha256": "85b69ef23de3b5ccea936affbb1da466635ba3ebe7dad52d06f89ae9cd2af726",
+      "bytes": 1076
+    },
+    {
+      "path": "followup/s3_access.jsonl",
+      "sha256": "06315a865b0a1d435481b9b7a2dd329f7177aa933abf3d7830ec70bd7443c0f0",
+      "bytes": 5849
+    },
+    {
+      "path": "followup/vpc_flow.jsonl",
+      "sha256": "66525a2b76cd86e2a4a134dd42ccf4241b1590b8b7af555f30bcd588a6678de4",
+      "bytes": 12301
+    },
+    {
+      "path": "followup/web.jsonl",
+      "sha256": "1af722fda3c70d8c747570eb3922ec044147f81f75fac553677a333a06098533",
+      "bytes": 103602
+    },
+    {
+      "path": "initial/auth.jsonl",
+      "sha256": "0b628d6dd38c716884232751f25fd1646fcf1cbf0362188f56794753fb8c2672",
+      "bytes": 1590
+    },
+    {
+      "path": "initial/cloudtrail.jsonl",
+      "sha256": "d93268949018a37845edf91d9243cf00d7962a74151e0d03c75449bdb3c1c643",
+      "bytes": 1726101
+    },
+    {
+      "path": "initial/host.jsonl",
+      "sha256": "175f7242476a8d7eafb57a19555037acab21b52e5328eef46a7cc2b9aa06e7f7",
+      "bytes": 141168
+    },
+    {
+      "path": "initial/logging_status.jsonl",
+      "sha256": "1bd175a46ea90bebc3e1090831d9936a696c8dd784427ed9c72c24324162b767",
+      "bytes": 267
+    },
+    {
+      "path": "initial/s3_access.jsonl",
+      "sha256": "bcfd24ddfdde967d70428539e176663b90f6e54fbf8fb12015f5fd669b0c71e6",
+      "bytes": 409648
+    },
+    {
+      "path": "initial/vpc_flow.jsonl",
+      "sha256": "21c5234b4b7aa1fdc7e07f9ef1235f668744ab0c0b42a362aeeb84d24bd350b0",
+      "bytes": 871485
+    },
+    {
+      "path": "initial/web.jsonl",
+      "sha256": "ef691d6637325153cd40035475aa136d086eae02435cd657f25e22b4272519c0",
+      "bytes": 5132820
+    }
+  ]
+}

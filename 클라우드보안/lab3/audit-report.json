@@ -1,0 +1,483 @@
+{
+  "generatedAt": "2026-09-07T06:05:03.264415+00:00",
+  "region": "ap-northeast-2",
+  "tagKey": "Project",
+  "tagValue": "CloudSecurityLab",
+  "summary": {
+    "CRITICAL": 0,
+    "HIGH": 16,
+    "MEDIUM": 17,
+    "LOW": 34
+  },
+  "findings": [
+    {
+      "service": "EC2",
+      "title": "IMDSv1 allowed",
+      "severity": "HIGH",
+      "resource": "i-0fccce190bffa63b9",
+      "detail": "HttpTokens is not required"
+    },
+    {
+      "service": "EC2",
+      "title": "Public IP assigned",
+      "severity": "LOW",
+      "resource": "i-0fccce190bffa63b9",
+      "detail": "PublicIpAddress=3.38.197.133"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Management port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-06def63d640c7c34c",
+      "detail": "port 22-22 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-0c855cf4814693905",
+      "detail": "port 80-80 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Management port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-0d8bcf2f37d3136e8",
+      "detail": "port 3389-3389 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Management port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-030388b16864b930d",
+      "detail": "port 22-22 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Management port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-07f99439d2f2f627c",
+      "detail": "port 22-22 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Management port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-044b5cd10aa1bbc03",
+      "detail": "port 22-22 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-0cf42ed3e2e09e1f6",
+      "detail": "port 80-80 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-0cf42ed3e2e09e1f6",
+      "detail": "port 8080-8080 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Management port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-0cf42ed3e2e09e1f6",
+      "detail": "port 22-22 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-07447634773e3470f",
+      "detail": "port 80-80 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-07447634773e3470f",
+      "detail": "port 5432-5432 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-07447634773e3470f",
+      "detail": "port 4321-4321 open to 0.0.0.0/0"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Port open to 0.0.0.0/0",
+      "severity": "MEDIUM",
+      "resource": "sg-07447634773e3470f",
+      "detail": "port 443-443 open to 0.0.0.0/0"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is not public",
+      "severity": "LOW",
+      "resource": "access-log-peanutz",
+      "detail": "IsPublic=False"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "access-log-peanutz",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is not public",
+      "severity": "LOW",
+      "resource": "aws-cloudtrail-logs-885296137678-25816a06",
+      "detail": "IsPublic=False"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "aws-cloudtrail-logs-885296137678-25816a06",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "croner-buckt-quefnoi",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is not public",
+      "severity": "LOW",
+      "resource": "do-not-delete-ssm-diagnosis-885296137678-ap-northeast-2-f85sb",
+      "detail": "IsPublic=False"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "fininfra-win-validate-1773066249-28654",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is public",
+      "severity": "HIGH",
+      "resource": "jamo.peanutz.site",
+      "detail": "IsPublic=True"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "jamo.peanutz.site",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is not public",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-lg-apnortheast2-885296137678",
+      "detail": "IsPublic=False"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-lg-apnortheast2-885296137678",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is public",
+      "severity": "HIGH",
+      "resource": "lab-cloudsec-dev-pb-apnortheast2-885296137678",
+      "detail": "IsPublic=True"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-pb-apnortheast2-885296137678",
+      "detail": "Status=Suspended"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is public",
+      "severity": "HIGH",
+      "resource": "lab-cloudsec-dev-sa-apnortheast2-885296137678",
+      "detail": "IsPublic=True"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-sa-apnortheast2-885296137678",
+      "detail": "Status=Suspended"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is not public",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-tr-apnortheast2-885296137678",
+      "detail": "IsPublic=False"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-tr-apnortheast2-885296137678",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is not public",
+      "severity": "LOW",
+      "resource": "pub-share-dttlo1557",
+      "detail": "IsPublic=False"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "pub-share-dttlo1557",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is public",
+      "severity": "HIGH",
+      "resource": "resume-cv.peanutz.site",
+      "detail": "IsPublic=True"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "resume-cv.peanutz.site",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "S3",
+      "title": "Bucket policy is public",
+      "severity": "HIGH",
+      "resource": "s3share.peanutz.site",
+      "detail": "IsPublic=True"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "s3share.peanutz.site",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "S3",
+      "title": "Versioning disabled",
+      "severity": "LOW",
+      "resource": "web-scan-pipeliner",
+      "detail": "Status=Disabled"
+    },
+    {
+      "service": "IAM",
+      "title": "Too many active access keys",
+      "severity": "MEDIUM",
+      "resource": "admin",
+      "detail": "active keys=2"
+    },
+    {
+      "service": "CloudTrail",
+      "title": "Logging enabled",
+      "severity": "LOW",
+      "resource": "Sample_Trail",
+      "detail": "IsLogging=True"
+    },
+    {
+      "service": "CloudTrail",
+      "title": "Logging enabled",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-trail",
+      "detail": "IsLogging=True"
+    },
+    {
+      "service": "EC2/SG",
+      "title": "Default security group has rules",
+      "severity": "MEDIUM",
+      "resource": "sg-ade38ad0",
+      "detail": "default SG는 규칙이 비어있어야 정상"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "access-log-peanutz",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "aws-cloudtrail-logs-885296137678-25816a06",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "croner-buckt-quefnoi",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "do-not-delete-ssm-diagnosis-885296137678-ap-northeast-2-f85sb",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "fininfra-win-validate-1773066249-28654",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "jamo.peanutz.site",
+      "detail": "{'BlockPublicAcls': False, 'IgnorePublicAcls': False, 'BlockPublicPolicy': False, 'RestrictPublicBuckets': False}"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-lg-apnortheast2-885296137678",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "lab-cloudsec-dev-pb-apnortheast2-885296137678",
+      "detail": "{'BlockPublicAcls': True, 'IgnorePublicAcls': True, 'BlockPublicPolicy': False, 'RestrictPublicBuckets': False}"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "lab-cloudsec-dev-sa-apnortheast2-885296137678",
+      "detail": "{'BlockPublicAcls': False, 'IgnorePublicAcls': False, 'BlockPublicPolicy': False, 'RestrictPublicBuckets': False}"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "lab-cloudsec-dev-tr-apnortheast2-885296137678",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "lightasil-wireguard-accesslog",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "pub-share-dttlo1557",
+      "detail": "{'BlockPublicAcls': False, 'IgnorePublicAcls': False, 'BlockPublicPolicy': False, 'RestrictPublicBuckets': False}"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "pub-share-dttlo1557",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "resume-cv.peanutz.site",
+      "detail": "{'BlockPublicAcls': False, 'IgnorePublicAcls': False, 'BlockPublicPolicy': False, 'RestrictPublicBuckets': False}"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "resume-cv.peanutz.site",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Public Access Block not fully enabled",
+      "severity": "HIGH",
+      "resource": "s3share.peanutz.site",
+      "detail": "{'BlockPublicAcls': False, 'IgnorePublicAcls': False, 'BlockPublicPolicy': False, 'RestrictPublicBuckets': False}"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "s3share.peanutz.site",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "S3",
+      "title": "Access logging not configured",
+      "severity": "LOW",
+      "resource": "web-scan-pipeliner",
+      "detail": "LoggingEnabled missing"
+    },
+    {
+      "service": "IAM",
+      "title": "AdministratorAccess attached directly to user",
+      "severity": "HIGH",
+      "resource": "admin",
+      "detail": "role를 통하지 않고 사용자에 직접 관리자 권한 연결"
+    },
+    {
+      "service": "IAM",
+      "title": "AdministratorAccess attached directly to user",
+      "severity": "HIGH",
+      "resource": "admin_JH",
+      "detail": "role를 통하지 않고 사용자에 직접 관리자 권한 연결"
+    },
+    {
+      "service": "IAM",
+      "title": "AdministratorAccess attached directly to user",
+      "severity": "HIGH",
+      "resource": "attacker",
+      "detail": "role를 통하지 않고 사용자에 직접 관리자 권한 연결"
+    },
+    {
+      "service": "IAM",
+      "title": "AdministratorAccess attached directly to user",
+      "severity": "HIGH",
+      "resource": "mac_admin",
+      "detail": "role를 통하지 않고 사용자에 직접 관리자 권한 연결"
+    },
+    {
+      "service": "CloudTrail",
+      "title": "Trail is not multi-region",
+      "severity": "MEDIUM",
+      "resource": "lab-cloudsec-dev-trail",
+      "detail": "IsMultiRegionTrail=False"
+    },
+    {
+      "service": "CloudTrail",
+      "title": "Log file validation disabled",
+      "severity": "MEDIUM",
+      "resource": "lab-cloudsec-dev-trail",
+      "detail": "LogFileValidationEnabled=False"
+    }
+  ]
+}
